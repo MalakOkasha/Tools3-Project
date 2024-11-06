@@ -1,0 +1,158 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Ensure html and body take full height and width */
+html, body {
+    height: 100%; /* Full height for both html and body */
+    width: 100%; /* Full width for both html and body */
+}
+
+/* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif; /* Modern font */
+    color: #333; /* Darker text color */
+    background-color: #f0f4f8; /* Light background color for a soft appearance */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: space-between; /* Space between header, main content, and footer */
+    min-height: 100vh; /* Full viewport height */
+    padding: 0 20px; /* Horizontal padding for responsiveness */
+}
+
+/* Header Styles */
+header {
+    width: 100%;
+    background-color: #ffffff; /* Header background */
+    padding: 20px; /* Padding for header */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    text-align: center; /* Center text */
+    position: sticky; /* Sticky header */
+    top: 0; /* Sticks to the top */
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+h1 {
+    font-size: 2.5em; /* Large font size for title */
+    color: #3d4785; /* Primary color */
+    margin-bottom: 10px; /* Space below title */
+    font-weight: 600; /* Semi-bold weight */
+    text-transform: uppercase; /* Uppercase for modern touch */
+}
+
+/* Navigation Styles */
+.navigation {
+    margin-top: 10px; /* Space above navigation */
+}
+
+.navigation nav {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Space between links */
+}
+
+.navigation a {
+    color: #3d4785; /* Primary color */
+    text-decoration: none;
+    font-weight: 500; /* Medium font weight */
+    padding: 10px 20px; /* Padding for links */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+.navigation a:hover {
+    background-color: #3d4785; /* Change background on hover */
+    color: #ffffff; /* White text on hover */
+    transform: translateY(-3px); /* Slight lift effect on hover */
+}
+
+/* Main Content Styles */
+.main-content {
+    flex-grow: 1; /* Allow main content to grow and take available space */
+    width: 100%; /* Full width */
+    max-width: 900px; /* Limit max width for larger screens */
+    padding: 30px; /* Padding around main content */
+    background-color: #ffffff; /* Clean white background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
+    margin: 20px auto; /* Centering with equal margin on left and right */
+    display: flex; /* Flexbox for easy alignment */
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    color: #777; /* Softer color for footer text */
+    font-size: 0.9em;
+    padding: 15px;
+    width: 100%; /* Full width for footer */
+    background-color: #ffffff; /* Footer background color */
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Additional styles for responsiveness */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2em; /* Adjust font size for smaller screens */
+    }
+
+    .navigation nav {
+        flex-direction: column; /* Stack links vertically on small screens */
+    }
+
+    .navigation a {
+        padding: 10px;
+        width: 100%; /* Full width buttons */
+        text-align: center; /* Center text */
+    }
+
+    .main-content {
+        padding: 20px; /* Reduce padding on smaller screens */
+        margin: 10px; /* Slightly less margin for small screens */
+    }
+}
+
+/* Enhancements for buttons and interactions */
+.button {
+    background-color: #3d4785; /* Primary button color */
+    color: #ffffff; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding for button */
+    font-size: 1em; /* Font size for button */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+.button:hover {
+    background-color: #3d4785; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+/* Additional styles for form inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"] {
+    width: 100%; /* Full width */
+    padding: 10px; /* Padding for inputs */
+    margin: 10px 0; /* Space around inputs */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    transition: border-color 0.3s ease; /* Smooth border transition */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus {
+    border-color: #3d4785; /* Change border color on focus */
+    outline: none; /* Remove outline */
+}
