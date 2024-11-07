@@ -1,0 +1,80 @@
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f4f6f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .order-table th, .order-table td {
+    padding: 12px 20px;
+    text-align: left;
+  }
+  
+  .order-table th {
+    background-color: #3d4785;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  .order-table tr:nth-child(even) {
+    background-color: #f7f8fc;
+  }
+  
+  .order-table tr:hover {
+    background-color: #e1e3f3;
+  }
+  
+  button {
+    padding: 6px 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 6px;
+    background-color: #3d4785;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
+  }
+  
+  /* Hover Effect */
+  button:hover {
+    background-color: #2f366b; /* Darker shade for hover */
+    transform: scale(1.05); /* Slight zoom effect */
+  }
+  
+  /* Specific styles for Delete and Update buttons */
+  button.update {
+    background-color: #4caf50; /* Green for Update */
+  }
+  
+  button.update:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
+  button.delete {
+    background-color: #f44336; /* Red for Delete */
+  }
+  
+  button.delete:hover {
+    background-color: #e53935; /* Darker red on hover */
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  

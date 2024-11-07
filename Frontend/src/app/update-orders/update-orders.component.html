@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Update Order Status</title>
+  <link rel="stylesheet" href="update-orders.component.css"> <!-- Link to external CSS file -->
+</head>
+<body>
+  <div class="container">
+    <h1>Update Order Status</h1>
+    <p>Change the current status of an order below.</p>
+
+    <form class="update-status-form">
+      <label for="order-id">Order ID</label>
+      <input type="text" id="order-id" placeholder="Enter Order ID" required>
+
+      <label for="status">Order Status</label>
+      <select id="status" required>
+        <option value="" disabled selected>Select Status</option>
+        <option value="picked-up">Picked Up</option>
+        <option value="in-transit">In Transit</option>
+        <option value="delivered">Delivered</option>
+      </select>
+
+      <button type="submit" class="btn-submit">Update Status</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Assigned Orders to Couriers</title>
+  <link rel="stylesheet" href="assigned-orders-to-courier.component.css"> <!-- Link to external CSS file -->
+</head>
+<body>
+  <div class="container">
+    <h1>Assigned Orders to Couriers</h1>
+    <p>Manage the courier assignments for each order below.</p>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer Name</th>
+          <th>Courier</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Replace these rows with Angular dynamic data -->
+        <tr>
+          <td>1234</td>
+          <td>John Doe</td>
+          <td>Courier A</td>
+          <td>In Transit</td>
+          <td>
+            <button class="btn-reassign">Reassign Courier</button>
+          </td>
+        </tr>
+        <tr>
+          <td>5678</td>
+          <td>Jane Smith</td>
+          <td>Courier B</td>
+          <td>Delivered</td>
+          <td>
+            <button class="btn-reassign">Reassign Courier</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
