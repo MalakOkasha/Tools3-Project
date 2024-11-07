@@ -1,0 +1,30 @@
+# Step 1: Use the official Golang image as the builder
+FROM golang:1.20 AS builder
+
+# Step 2: Set the working directory inside the container
+WORKDIR /app
+
+# Step 3: Copy the Go modules and download dependencies
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Step 4: Copy the rest of the application source code
+COPY . .
+
+# Step 5: Build the application as a binary
+RUN go build -o myapp .
+
+# Step 6: Use a smaller base image to hold the binary
+FROM alpine:latest
+
+# Step 7: Set the working directory inside the smaller image
+WORKDIR /root/
+
+# Step 8: Copy the binary from the builder
+COPY --from=builder /app/myapp .
+
+# Step 9: Expose the port that the application will run on
+EXPOSE 8080
+
+# Step 10: Set the default command to run the app
+CMD ["./myapp"]

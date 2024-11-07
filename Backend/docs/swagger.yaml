@@ -1,15 +1,87 @@
 basePath: /
 definitions:
-  controllers.LoginRequest:
+  models.AdminLoginRequest:
     properties:
       email:
         type: string
       password:
         type: string
     type: object
-  controllers.RegisterRequest:
+  models.AdminRegisterRequest:
     properties:
       email:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      store_id:
+        type: string
+    type: object
+  models.CourierLoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  models.CourierRegisterRequest:
+    properties:
+      email:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      store_id:
+        type: string
+      vehicle_type:
+        type: string
+    type: object
+  models.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  models.OwnerLoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  models.OwnerRegisterRequest:
+    properties:
+      email:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      store_location:
+        type: string
+      store_name:
+        type: string
+    type: object
+  models.RegisterRequest:
+    properties:
+      email:
+        type: string
+      location:
         type: string
       name:
         type: string
@@ -27,12 +99,236 @@ info:
   description: This is a sample API for user registration and login.
   license:
     name: Cairo University
-    url: https://opensource.org/licenses/MIT
+    url: Project Repo link
   termsOfService: http://example.com/terms/
-  title: Package Tracking System (PTS-Open Shift) phase 0
+  title: Package Tracking System (PTS-OpenShift) phase 0
   version: "1.0"
 paths:
-  /login:
+  /admins/login:
+    post:
+      consumes:
+      - application/json
+      description: Login an admin with email and password
+      parameters:
+      - description: Admin login data
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/models.AdminLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success response with JWT token and admin details
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Invalid credentials
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login an admin
+  /admins/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new admin with details such as name, email, phone, password,
+        location, and store ID. Returns a success message if registration is successful.
+      parameters:
+      - description: Admin registration data
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/models.AdminRegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success response message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Missing required fields or invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Store not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register a new admin
+  /couriers/login:
+    post:
+      consumes:
+      - application/json
+      description: Login a courier with email and password
+      parameters:
+      - description: Courier login data
+        in: body
+        name: courier
+        required: true
+        schema:
+          $ref: '#/definitions/models.CourierLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success response with JWT token and courier details
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Invalid credentials
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login a courier
+  /couriers/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new courier with details such as name, email, phone,
+        password, location, vehicle type, and store ID. Returns a success message
+        if registration is successful.
+      parameters:
+      - description: Courier registration data
+        in: body
+        name: courier
+        required: true
+        schema:
+          $ref: '#/definitions/models.CourierRegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success response message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Missing required fields or invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Store not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register a new courier
+  /owners/login:
+    post:
+      consumes:
+      - application/json
+      description: Login an owner with email and password
+      parameters:
+      - description: Owner login data
+        in: body
+        name: owner
+        required: true
+        schema:
+          $ref: '#/definitions/models.OwnerLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success response with JWT token and owner details
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Invalid credentials
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login an owner
+  /owners/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new owner with details such as name, email, phone, password,
+        location, and store details. Returns a success message if registration is
+        successful.
+      parameters:
+      - description: Owner registration data
+        in: body
+        name: owner
+        required: true
+        schema:
+          $ref: '#/definitions/models.OwnerRegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success response message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Missing required fields or invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Store not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register a new owner
+  /users/login:
     post:
       consumes:
       - application/json
@@ -43,12 +339,12 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/controllers.LoginRequest'
+          $ref: '#/definitions/models.LoginRequest'
       produces:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Login successful
           schema:
             additionalProperties: true
             type: object
@@ -58,25 +354,30 @@ paths:
             additionalProperties:
               type: string
             type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
       summary: Login a user
-  /register:
+  /users/register:
     post:
       consumes:
       - application/json
-      description: Register a new user with name, email, phone, and password. Returns
-        a success message if registration is successful.
+      description: Register a new user with name, email, phone, password, and location
       parameters:
       - description: User registration data
         in: body
         name: user
         required: true
         schema:
-          $ref: '#/definitions/controllers.RegisterRequest'
+          $ref: '#/definitions/models.RegisterRequest'
       produces:
       - application/json
       responses:
         "201":
-          description: Success response message
+          description: User registered successfully
           schema:
             additionalProperties:
               type: string
