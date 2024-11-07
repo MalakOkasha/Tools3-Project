@@ -1,0 +1,15 @@
+<div *ngIf="orders.length > 0; else empty" class="orders-container"> <!--checking if the orders list is not empty-->
+    <h2>Your Orders</h2>
+    <ul>
+      <li *ngFor="let order of orders"> <!-- looping through each item in the orders array and creating a list item for each order-->
+        <h3>Order ID: {{ order.id }}</h3> <!--displaying order id-->
+        <p>Order Status: {{ order.status }}</p> <!--displaying order status-->
+        <button (click)="viewOrderDetails(order.id)">View Details</button> <!-- Link to details page -->
+      </li>
+    </ul>
+  </div>
+  
+  <ng-template #empty>
+    <p class="noOrders-message">You Have No Orders Yet!</p>
+  </ng-template>
+  

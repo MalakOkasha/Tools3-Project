@@ -1,0 +1,51 @@
+<head>
+    <title>Place Order</title>
+    <link rel="stylesheet" href="place-order.component.css">
+</head>
+<main class="main">
+        <body> 
+        <h2>Place an Order</h2>
+        <div class="container">
+        <div class="form">
+            <form  [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+                <div class="box">
+                    <label for="PickUp">Pickup Location:</label>
+                    <input type="text" id="pickup" name="pickup" required>
+
+                </div>
+                <div class="box">
+                    <label for="DropOff">Drop-off Location:</label>
+                    <input type="text" id="dropOff" name="dropOff" required>
+                </div>
+                <div class="box">
+                    <label for="delivery">Delivery Time:</label>
+                    <select id="delivery" name="delivery">
+                        <option value="">Select</option>
+                        <option value="morning">9:00 am - 12:00 pm</option>
+                        <option value="midDay">1:00 pm - 4:00 pm</option>
+                        <option value="night">5:00 pm - 9:00 pm</option>
+                    </select>
+                </div>
+                <div class="box">
+                    <label for="PackageDetails">Package Details:</label>
+                    <input type="textarea" id="packageDetails" name="packageDetails" required>
+                </div>
+                                <div class="box">
+                    <label>
+                        I agree to the terms <br>and conditions:
+                        <input type="checkbox" name="terms" value="yes" required>
+                        
+                    </label>
+                </div>
+                <div class="box">
+                    <button type="submit" [disabled]="orderForm.invalid">Place Order</button>
+                </div>
+            </form>
+            
+                        
+        </div>
+
+        </div>
+
+        </body>
+</main>
