@@ -1,32 +1,31 @@
 <header>
-    <h1>Welcome to Cairo University Seniors</h1>
-    <div class="navigation">
-      <nav>
-        <a routerLink="/login" routerLinkActive="active-link">Login</a>
-        <a routerLink="/register" routerLinkActive="active-link">Register</a>
-        <ng-template *ngif="global.is_login">
-          <ng-template *ngif="global.type == 'user'">
-            <a routerLink="/place-order" routerLinkActive="active-link">Place Order</a>
-            <a routerLink="/my-orders" routerLinkActive="active-link">My Orders</a>
-          </ng-template>
-          <ng-template *ngif="global.type == 'admin'">
-            <a routerLink="/assigned-orders-to-courier" routerLinkActive="active-link">assigned Orders to courier</a>
-            <a routerLink="/manage-order" routerLinkActive="active-link">manage Orders</a>
-          </ng-template>
-          <ng-template *ngif="global.type == 'courier'">
-            <a routerLink="/assigned-orders" routerLinkActive="active-link">assigned Orders</a>
-            <a routerLink="/update-order" routerLinkActive="active-link">update Orders</a>
-          </ng-template>
+  <h1>Welcome to Cairo University Seniors</h1>
+  <div class="navigation">
+    <nav>
+      <a routerLink="/login" routerLinkActive="active-link">Login</a>
+      <a routerLink="/register" routerLinkActive="active-link">Register</a>
+      <ng-template *ngif="global.is_login">
+        <ng-template *ngif="global.type == 'user'">
+          <a routerLink="/place-order" routerLinkActive="active-link">Place Order</a>
+          <a routerLink="/my-orders" routerLinkActive="active-link">My Orders</a>
         </ng-template>
-      </nav>
-    </div>
-  </header>
-  
-  <main class="main-content">
-    <router-outlet></router-outlet>
-  </main>
-  
-  <footer>
-    <p>&copy; 2024 Seniors</p>
-  </footer>
-  
+        <ng-template *ngif="global.type == 'admin'">
+          <a routerLink="/assigned-orders-to-courier" routerLinkActive="active-link">assigned Orders to courier</a>
+          <a routerLink="/manage-order" routerLinkActive="active-link">manage Orders</a>
+        </ng-template>
+        <ng-template *ngif="global.type == 'courier'">
+          <a routerLink="/assigned-orders" routerLinkActive="active-link">assigned Orders</a>
+          <a routerLink="/update-order" routerLinkActive="active-link">update Orders</a>
+        </ng-template>
+      </ng-template>
+    </nav>
+  </div>
+</header>
+
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
+
+<footer>
+  <p>&copy; 2024 Seniors</p>
+</footer>

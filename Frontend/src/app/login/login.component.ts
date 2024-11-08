@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import {GlobalService} from '../services/global.service';
 
 @Component({
   selector: 'app-login',
@@ -13,13 +14,13 @@ import { HttpClientModule } from '@angular/common/http';
 export class LoginComponent {
   loginObject: Login;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private global:GlobalService) {
     this.loginObject = new Login();
   }
 
   whenLogin() {
     console.log('Login button clicked:', this.loginObject);
-    
+
     // Define headers for the request
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -30,18 +31,16 @@ export class LoginComponent {
     this.http.post('http://localhost:8080/login', this.loginObject, { headers }).subscribe(
       (res: any) => {
         console.log('Response from login API:', res);
-        
+
         if (res && res.token && res.user) {
           const token = res.token; // Extract the token
           const user = res.user;   // Extract the user data
-
-          console.log('Login successful!');
-          console.log('Token:', token);
-          console.log('User:', user);
-          console.log('User Email:', user.Email);
-
+          const user_type = res.user.type;   // Extract the user type from data
           alert("You logged in successfully :)");
           localStorage.setItem('token', token); // Save the token
+          localStorage.setItem('user_type', user_type); // Save the user type
+          this.global.is_login = true; // make user login is global in website
+          this.global.type = user_type; // make user type is global in website
         } else {
           alert('Login failed: Invalid response from the server.');
           console.log('Invalid response:', res);
