@@ -17,6 +17,7 @@
 // app.component.ts
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterModule } from '@angular/router';
+import {GlobalService} from './services/global.service';
 
 @Component({
   selector: 'app-root',
@@ -27,4 +28,16 @@ import { RouterOutlet, RouterModule } from '@angular/router';
 })
 export class AppComponent {
   title = 'my-angular-app';
+
+
+  constructor(public global:GlobalService) {
+
+  }
+
+
+
+
+
+
+
 }
