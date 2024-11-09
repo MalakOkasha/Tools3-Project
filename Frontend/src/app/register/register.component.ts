@@ -62,12 +62,14 @@ export class Register{
   password: string;
   phone: string;
   name: string;
+  Role: string;
 
   constructor() {
     this.email = '';
     this.password = '';
     this.phone ='';
     this.name ='';
+    this.Role = 'user';
 
   }
 }
