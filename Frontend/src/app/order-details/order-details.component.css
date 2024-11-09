@@ -39,7 +39,7 @@
     box-shadow: 0 4px 6px rgba(154, 153, 153, 0.05);
   }
   
-  .button {
+  button {
     width: 100%;
     padding: 12px;
     background-color: #e74c3c;
@@ -54,7 +54,7 @@
     transition: background-color 0.3s;
   }
   
-  .button:hover {
+  button:hover {
     background-color: #c0392b;
   }
   
