@@ -64,7 +64,8 @@ label {
   margin-right: 10px;
 }
 
-.input-icon input {
+.input-icon input,
+.input-icon select {
   border: none;
   outline: none;
   background: none;
