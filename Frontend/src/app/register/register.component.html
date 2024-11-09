@@ -52,6 +52,18 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label for="role">Role</label>
+        <div class="input-icon">
+          <i class="fa-solid fa-user"></i>
+          <select [(ngModel)]="registerObject.Role" id="role" name="role" required>
+            <option value="user">User</option>
+            <option value="courier">Courier</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+      </div>
+
       <!-- Register Button -->
       <button type="submit" class="button" (click)="whenRegister()">Register</button>
     </form>
