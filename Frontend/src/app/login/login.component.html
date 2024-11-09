@@ -14,8 +14,7 @@
         <label for="email">Email Address</label>
         <div class="input-icon">
           <i class="fa-regular fa-envelope"></i>
-          <input type="email" [(ngModel)]="loginObject.Email" id="email" name="email" placeholder="Username@gmail.com"  required />
-          
+          <input type="email" [(ngModel)]="loginObject.Email" id="email" name="email" placeholder="Username@gmail.com" required />
         </div>
       </div>
 
@@ -23,7 +22,20 @@
         <label for="password">Password</label>
         <div class="input-icon">
           <i class="fa-solid fa-lock"></i>
-          <input type="password" [(ngModel)]="loginObject.Password" id="password" name="password" placeholder="Password"  required />
+          <input type="password" [(ngModel)]="loginObject.Password" id="password" name="password" placeholder="Password" required />
+        </div>
+      </div>
+
+      
+      <div class="form-group">
+        <label for="role">Role</label>
+        <div class="input-icon">
+          <i class="fa-solid fa-user"></i>
+          <select [(ngModel)]="loginObject.Role" id="role" name="role" required>
+            <option value="user">User</option>
+            <option value="courier">Courier</option>
+            <option value="admin">Admin</option>
+          </select>
         </div>
       </div>
 
@@ -32,7 +44,6 @@
     
     <div class="footer">
       <a routerLink="/register">Register here</a>
-
     </div>
   </div>
 </main>
