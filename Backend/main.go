@@ -1,7 +1,7 @@
 package main
 
 import (
-	UserAPIs "PTS/APIs"
+	"PTS/APIs"
 	"PTS/utils"
 	"fmt"
 	"log"
@@ -36,7 +36,10 @@ func main() {
 	handler := cors.Default().Handler(router)
 
 	// Register API routes
-	UserAPIs.RegisterAuthRoutes(router)
+	APIs.RegisterAuthRoutes(router)
+	APIs.RegisterItemRoutes(router)
+	APIs.RegisterOrderRoutes(router)
+	APIs.RegisterStoreRoutes(router)
 
 	// Serve Swagger JSON
 	router.Path("/swagger/doc.json").HandlerFunc(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

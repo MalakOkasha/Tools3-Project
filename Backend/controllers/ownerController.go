@@ -27,6 +27,7 @@ type OwnerController struct{}
 // @Failure 404 {object} map[string]string "Store not found"
 // @Failure 500 {object} map[string]string "Server error"
 // @Router /owners/register [post]
+// @Tag Authentication
 func (oc *OwnerController) OwnerRegister(w http.ResponseWriter, r *http.Request) {
 	var req models.OwnerRegisterRequest
 
@@ -104,6 +105,7 @@ func (oc *OwnerController) OwnerRegister(w http.ResponseWriter, r *http.Request)
 // @Failure 401 {object} map[string]string "Invalid credentials"
 // @Failure 500 {object} map[string]string "Server error"
 // @Router /owners/login [post]
+// @Tag Authentication
 func (oc *OwnerController) OwnerLogin(w http.ResponseWriter, r *http.Request) {
 	var req models.OwnerLoginRequest
 

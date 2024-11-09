@@ -27,6 +27,7 @@ type AdminController struct{}
 // @Failure 404 {object} map[string]string "Store not found"
 // @Failure 500 {object} map[string]string "Server error"
 // @Router /admins/register [post]
+// @Tag Authentication
 func (ac *AdminController) AdminRegister(w http.ResponseWriter, r *http.Request) {
 	var req models.AdminRegisterRequest
 
@@ -93,8 +94,12 @@ func (ac *AdminController) AdminRegister(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	// Update the stores table to add the new admin's ID to admin_ids
-	updateStoreQuery := "UPDATE stores SET admins_ids = array_append(admin_ids, $1) WHERE id = $2"
+	// Update the stores table to add the new admin's ID to admins_ids array if it does not already exist
+	updateStoreQuery := `
+		UPDATE stores
+		SET admins_ids = array_append(admins_ids, $1)
+		WHERE id = $2 AND NOT ($1 = ANY(admins_ids))
+	`
 	_, err = utils.DB.Exec(updateStoreQuery, adminID, req.StoreId)
 	if err != nil {
 		log.Println("Error updating store with admin ID:", err)
@@ -117,6 +122,7 @@ func (ac *AdminController) AdminRegister(w http.ResponseWriter, r *http.Request)
 // @Failure 401 {object} map[string]string "Invalid credentials"
 // @Failure 500 {object} map[string]string "Server error"
 // @Router /admins/login [post]
+// @Tag Authentication
 func (ac *AdminController) AdminLogin(w http.ResponseWriter, r *http.Request) {
 	var req models.AdminLoginRequest
 

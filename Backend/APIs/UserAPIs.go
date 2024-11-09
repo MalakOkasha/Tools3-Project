@@ -1,4 +1,4 @@
-package UserAPIs
+package APIs
 
 import (
 	"PTS/controllers"
@@ -7,26 +7,25 @@ import (
 )
 
 // RegisterAuthRoutes registers authentication routes
-// RegisterAuthRoutes registers authentication routes
 func RegisterAuthRoutes(router *mux.Router) {
-	userController := &controllers.UserController{} // Create an instance of AuthController
+	userController := &controllers.UserController{}
 	courierController := &controllers.CourierController{}
 	adminController := &controllers.AdminController{}
 	ownerController := &controllers.OwnerController{}
 
 	// Routes for Normal Users
-	router.HandleFunc("/users/register", userController.Register).Methods("POST") // Corrected to /users/register
-	router.HandleFunc("/users/login", userController.Login).Methods("POST")       // Corrected to /users/login
+	router.HandleFunc("/users/register", userController.Register).Methods("POST")
+	router.HandleFunc("/users/login", userController.Login).Methods("POST")
 
-	// Routes for Couriers Users
+	// Routes for Courier Users
 	router.HandleFunc("/couriers/register", courierController.CourierRegister).Methods("POST")
 	router.HandleFunc("/couriers/login", courierController.CourierLogin).Methods("POST")
 
-	// Routes for Admins Users
+	// Routes for Admin Users
 	router.HandleFunc("/admins/register", adminController.AdminRegister).Methods("POST")
 	router.HandleFunc("/admins/login", adminController.AdminLogin).Methods("POST")
 
-	// Routes for Owners Users
+	// Routes for Owner Users
 	router.HandleFunc("/owners/register", ownerController.OwnerRegister).Methods("POST")
 	router.HandleFunc("/owners/login", ownerController.OwnerLogin).Methods("POST")
 }

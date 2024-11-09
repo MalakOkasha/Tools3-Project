@@ -24,6 +24,7 @@ type UserController struct{}
 // @Failure 400 {object} map[string]string "Missing required fields or invalid input"
 // @Failure 500 {object} map[string]string "Server error"
 // @Router /users/register [post] // Corrected to /users/register
+// @Tag Authentication
 func (ac *UserController) Register(w http.ResponseWriter, r *http.Request) {
 	var req models.RegisterRequest
 
@@ -80,6 +81,7 @@ func (ac *UserController) Register(w http.ResponseWriter, r *http.Request) {
 // @Failure 401 {object} map[string]string "Invalid credentials"
 // @Failure 500 {object} map[string]string "Server error"
 // @Router /users/login [post] // Corrected to /users/login
+// @Tag Authentication
 func (ac *UserController) Login(w http.ResponseWriter, r *http.Request) {
 	var req models.LoginRequest
 

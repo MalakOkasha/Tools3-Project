@@ -1,5 +1,49 @@
 basePath: /
 definitions:
+  models.AddAdminRequest:
+    properties:
+      adminId:
+        type: string
+    type: object
+  models.AddCourierRequest:
+    properties:
+      courierId:
+        type: string
+    type: object
+  models.AddItemRequest:
+    properties:
+      category:
+        type: string
+      cover_link:
+        type: string
+      description:
+        type: string
+      images:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      price:
+        type: number
+      stock:
+        type: integer
+      store_id:
+        type: string
+      user_id:
+        type: string
+    type: object
+  models.AddOrderRequest:
+    properties:
+      item_ids:
+        description: Item IDs in the order
+        items:
+          type: string
+        type: array
+      user_id:
+        description: User ID for the order
+        type: string
+    type: object
   models.AdminLoginRequest:
     properties:
       email:
@@ -20,6 +64,35 @@ definitions:
       phone:
         type: string
       store_id:
+        type: string
+    type: object
+  models.Courier:
+    properties:
+      assignedOrders:
+        items:
+          type: string
+        type: array
+      available:
+        type: boolean
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      lastActiveAt:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      storeId:
+        type: string
+      vehicleType:
         type: string
     type: object
   models.CourierLoginRequest:
@@ -46,11 +119,84 @@ definitions:
       vehicle_type:
         type: string
     type: object
+  models.Item:
+    properties:
+      category:
+        type: string
+      cover_link:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      images:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      price:
+        type: number
+      stock:
+        type: integer
+      store_id:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
   models.LoginRequest:
     properties:
       email:
         type: string
       password:
+        type: string
+    type: object
+  models.Order:
+    properties:
+      courier_id:
+        description: Use *uuid.UUID to handle optional courier_id
+        type: string
+      created_at:
+        description: Timestamp when the order was created
+        type: string
+      delivered_at:
+        description: Optional delivered_at timestamp
+        type: string
+      drop_off_location:
+        description: Drop off location
+        type: string
+      id:
+        description: Use uuid.UUID for ID
+        type: string
+      item_ids:
+        description: Use []uuid.UUID for item_ids
+        items:
+          type: string
+        type: array
+      package_details:
+        description: Additional package details
+        type: string
+      pickup_location:
+        description: Pickup location
+        type: string
+      status:
+        description: Status of the order (pending, confirmed, etc.)
+        type: string
+      store_id:
+        description: Use uuid.UUID for store_id
+        type: string
+      total_price:
+        description: Total price of the order
+        type: number
+      updated_at:
+        description: Timestamp when the order was last updated
+        type: string
+      user_id:
+        description: Use uuid.UUID for user_id
         type: string
     type: object
   models.OwnerLoginRequest:
@@ -80,6 +226,71 @@ definitions:
   models.RegisterRequest:
     properties:
       email:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.RemoveAdminRequest:
+    properties:
+      adminId:
+        type: string
+    type: object
+  models.RemoveCourierRequest:
+    properties:
+      courierId:
+        type: string
+    type: object
+  models.Store:
+    properties:
+      adminsIDs:
+        items:
+          type: string
+        type: array
+      couriersIDs:
+        items:
+          type: string
+        type: array
+      createdAt:
+        type: string
+      id:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      ownerID:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.StoreRegisterRequest:
+    properties:
+      location:
+        type: string
+      name:
+        type: string
+      owner_id:
+        type: string
+    type: object
+  models.UpdateOrderStatusRequest:
+    properties:
+      status:
+        description: New status for the order
+        type: string
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
         type: string
       location:
         type: string
@@ -253,6 +464,431 @@ paths:
               type: string
             type: object
       summary: Register a new courier
+  /items/add:
+    post:
+      consumes:
+      - application/json
+      description: Add a new item with name, description, price, stock, category,
+        cover link, and images
+      parameters:
+      - description: Item data
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddItemRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Item added successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Missing required fields or invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add a new item
+  /items/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an item by its ID
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item deleted successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Item not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete an item by ID
+  /items/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get details of an item by its ID
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item details
+          schema:
+            $ref: '#/definitions/models.Item'
+        "400":
+          description: Item ID is required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Item not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get item by ID
+  /items/list/{store_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all items for a specific store
+      parameters:
+      - description: Store ID
+        in: path
+        name: store_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of items
+          schema:
+            items:
+              $ref: '#/definitions/models.Item'
+            type: array
+        "400":
+          description: Store ID is required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List all items for a store
+  /orders/{order_id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all details about an order, including user, store, items,
+        courier, and status.
+      parameters:
+      - description: Order ID
+        in: path
+        name: order_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Order details retrieved successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Order not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get detailed order information
+  /orders/add:
+    post:
+      consumes:
+      - application/json
+      description: Create a new order with user ID, item IDs, and drop-off location.
+        Store ID and courier ID are determined automatically.
+      parameters:
+      - description: Order data
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Order added successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Missing required fields or invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add a new order
+  /orders/cancel/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: Cancel an order by its ID and set the assigned courier's availability
+        to true
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Order canceled successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Order ID is required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Order not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Cancel an order
+  /orders/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an order by its ID
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Order deleted successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Order not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete an order by ID
+  /orders/list/courier/{courier_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all orders for a specific courier
+      parameters:
+      - description: Courier ID
+        in: path
+        name: courier_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of orders
+          schema:
+            items:
+              $ref: '#/definitions/models.Order'
+            type: array
+        "400":
+          description: Courier ID is required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List all orders assigned to a courier
+  /orders/list/store/{store_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all orders for a specific store
+      parameters:
+      - description: Store ID
+        in: path
+        name: store_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of orders
+          schema:
+            items:
+              $ref: '#/definitions/models.Order'
+            type: array
+        "400":
+          description: Store ID is required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List all orders for a store
+  /orders/list/user/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all orders for a specific user
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of orders
+          schema:
+            items:
+              $ref: '#/definitions/models.Order'
+            type: array
+        "400":
+          description: User ID is required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List all orders for a user
+  /orders/update/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: Update the status of an order by its ID. If the status is "delivered",
+        sets `delivered_at` to the current time. If the status is "canceled", sets
+        the courier's availability to true.
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: New Status
+        in: body
+        name: status
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateOrderStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Order status updated successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Order ID and status are required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Order not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update the status of an order
   /owners/login:
     post:
       consumes:
@@ -328,6 +964,505 @@ paths:
               type: string
             type: object
       summary: Register a new owner
+  /stores/add:
+    post:
+      consumes:
+      - application/json
+      description: Create a new store with name, location, and owner ID
+      parameters:
+      - description: Store data
+        in: body
+        name: store
+        required: true
+        schema:
+          $ref: '#/definitions/models.StoreRegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Store added successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Missing required fields or invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add a new store
+  /stores/add-admin/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: Add an admin by user ID to a store if the admin exists in the admins
+        table
+      parameters:
+      - description: Store ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Admin User ID
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddAdminRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Admin added successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Admin not found or is not an admin user
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add an admin to a store
+  /stores/add-courier/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: Add a courier by user ID to a store if the courier exists in the
+        couriers table
+      parameters:
+      - description: Store ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Courier User ID
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddCourierRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Courier added successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Courier not found or is not a courier user
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add a courier to a store
+  /stores/couriers/available:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of available couriers for a specific store.
+      parameters:
+      - description: Store ID
+        in: query
+        name: store_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of available couriers
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "400":
+          description: Invalid store ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Store not found or no available couriers
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get available couriers by store ID
+  /stores/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a store by its ID
+      parameters:
+      - description: Store ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Store deleted successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid store ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Store not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a store by ID
+  /stores/get-admins:
+    get:
+      consumes:
+      - application/json
+      description: Get detailed information about all admins associated with a given
+        store
+      parameters:
+      - description: Store ID
+        in: query
+        name: storeId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of admin details
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "400":
+          description: Invalid store ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all admins for a specific store
+  /stores/get-admins/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get detailed information about all admins for a given store
+      parameters:
+      - description: Store ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of admin details
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Store not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all admins for a store
+  /stores/get-couriers:
+    get:
+      consumes:
+      - application/json
+      description: Get detailed information about all couriers associated with a given
+        store
+      parameters:
+      - description: Store ID
+        in: query
+        name: storeId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of courier details
+          schema:
+            items:
+              $ref: '#/definitions/models.Courier'
+            type: array
+        "400":
+          description: Invalid store ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all couriers for a specific store
+  /stores/get-couriers/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get detailed information about all couriers for a given store
+      parameters:
+      - description: Store ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of courier details
+          schema:
+            items:
+              $ref: '#/definitions/models.Courier'
+            type: array
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Store not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all couriers for a store
+  /stores/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get details of a store by its ID
+      parameters:
+      - description: Store ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Store details
+          schema:
+            $ref: '#/definitions/models.Store'
+        "400":
+          description: Store ID is required
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Store not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get a store by its ID
+  /stores/list:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all stores
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of stores
+          schema:
+            items:
+              $ref: '#/definitions/models.Store'
+            type: array
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List all stores
+  /stores/remove-admin/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: Remove an admin by user ID from a store
+      parameters:
+      - description: Store ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Admin User ID
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveAdminRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Admin removed successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Store not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Remove an admin from a store
+  /stores/remove-courier/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: Remove a courier by user ID from a store
+      parameters:
+      - description: Store ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Courier User ID
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveCourierRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Courier removed successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Store not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Remove a courier from a store
   /users/login:
     post:
       consumes:

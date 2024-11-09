@@ -29,6 +29,7 @@ type CourierController struct{}
 // @Failure 404 {object} map[string]string "Store not found"
 // @Failure 500 {object} map[string]string "Server error"
 // @Router /couriers/register [post]
+// @Tag Authentication
 func (ac *CourierController) CourierRegister(w http.ResponseWriter, r *http.Request) {
 	var req models.CourierRegisterRequest
 
@@ -119,6 +120,7 @@ func (ac *CourierController) CourierRegister(w http.ResponseWriter, r *http.Requ
 // @Failure 401 {object} map[string]string "Invalid credentials"
 // @Failure 500 {object} map[string]string "Server error"
 // @Router /couriers/login [post]
+// @Tag Authentication
 func (ac *CourierController) CourierLogin(w http.ResponseWriter, r *http.Request) {
 	var req models.CourierLoginRequest
 
@@ -135,7 +137,7 @@ func (ac *CourierController) CourierLogin(w http.ResponseWriter, r *http.Request
 	query := `
         SELECT 
             u.id, u.name, u.email, u.password, u.phone, u.location, u.created_at,
-            c.vehicle_type, c.available, c.last_active_at, c.orders
+            c.vehicle_type, c.available, c.last_active_at, c.store_id, c.orders
         FROM users u
         JOIN couriers c ON u.id = c.user_id
         WHERE u.email = $1
@@ -143,7 +145,7 @@ func (ac *CourierController) CourierLogin(w http.ResponseWriter, r *http.Request
 
 	err := utils.DB.QueryRow(query, req.Email).Scan(
 		&user.ID, &user.Name, &user.Email, &user.Password, &user.Phone, &user.Location, &user.CreatedAt,
-		&courier.VehicleType, &courier.Available, &courier.LastActiveAt, pq.Array(&courier.AssignedOrders),
+		&courier.VehicleType, &courier.Available, &courier.LastActiveAt, &courier.StoreId, pq.Array(&courier.AssignedOrders),
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -184,8 +186,8 @@ func (ac *CourierController) CourierLogin(w http.ResponseWriter, r *http.Request
 			"vehicleType": courier.VehicleType,
 			"available":   courier.Available,
 			"lastActive":  courier.LastActiveAt,
-			"orders":      courier.AssignedOrders,
 			"store_id":    courier.StoreId,
+			"orders":      courier.AssignedOrders,
 		},
 	}
 
