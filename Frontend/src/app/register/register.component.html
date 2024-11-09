@@ -1,75 +1,78 @@
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
-  <title>Register</title>
-</head>
-
 <main class="main">
-  <div class="register-container">
- 
-    <form>
+  <div class="register-card">
+    <h2>Register</h2>
+    <form (ngSubmit)="whenRegister()">
       <!-- Username -->
       <div class="form-group">
+        <input type="text" [(ngModel)]="registerObject.name" id="name" name="name" placeholder=" " required />
         <label for="name">Username</label>
-        <div class="input-icon">
-          <i class="fa-regular fa-user"></i>
-          <input type="text" [(ngModel)]="registerObject.name" id="name" name="name" placeholder="Enter your username" required />
-        </div>
       </div>
 
       <!-- Email -->
       <div class="form-group">
+        <input type="email" [(ngModel)]="registerObject.email" id="email" name="email" placeholder=" " required />
         <label for="email">Email</label>
-        <div class="input-icon">
-          <i class="fa-regular fa-envelope"></i>
-          <input type="email" [(ngModel)]="registerObject.email" id="email" name="email" placeholder="Enter your email" required />
-        </div>
       </div>
 
       <!-- Password -->
       <div class="form-group">
+        <input type="password" [(ngModel)]="registerObject.password" id="password" name="password" placeholder=" " required />
         <label for="password">Password</label>
-        <div class="input-icon">
-          <i class="fa-solid fa-lock"></i>
-          <input type="password" [(ngModel)]="registerObject.password" id="password" name="password" placeholder="Enter password" required />
-        </div>
       </div>
 
       <!-- Confirm Password -->
       <div class="form-group">
+        <input type="password" [(ngModel)]="registerObject.confirmPassword" id="confirm-password" name="confirm-password" placeholder=" " required />
         <label for="confirm-password">Confirm Password</label>
-        <div class="input-icon">
-          <i class="fa-solid fa-lock"></i>
-          <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm password" required />
-        </div>
       </div>
 
-      <!-- Phone Number -->
+      <!-- Phone -->
       <div class="form-group">
-        <label for="phone">Phone Number</label>
-        <div class="input-icon">
-          <i class="fa-solid fa-phone"></i>
-          <input type="tel" [(ngModel)]="registerObject.phone" id="phone" name="phone" placeholder="Enter your number" required />
-        </div>
+        <input type="tel" [(ngModel)]="registerObject.phone" id="phone" name="phone" placeholder=" " required />
+        <label for="phone">Phone</label>
       </div>
 
+      <!-- Location -->
       <div class="form-group">
+        <input type="text" [(ngModel)]="registerObject.location" id="location" name="location" placeholder=" " required />
+        <label for="location">Location</label>
+      </div>
+
+      <!-- Role Selection -->
+      <div class="form-group">
+        <select [(ngModel)]="registerObject.role" id="role" name="role" (change)="onRoleChange()" required>
+          <option value="" disabled selected>Select Role</option>
+          <option value="user">User</option>
+          <option value="courier">Courier</option>
+          <option value="admin">Admin</option>
+          <option value="owner">Owner</option>
+        </select>
         <label for="role">Role</label>
-        <div class="input-icon">
-          <i class="fa-solid fa-user"></i>
-          <select [(ngModel)]="registerObject.Role" id="role" name="role" required>
-            <option value="user">User</option>
-            <option value="courier">Courier</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
+      </div>
+
+      <!-- Role-Specific Fields -->
+      <div *ngIf="registerObject.role === 'courier'" class="form-group">
+        <input type="text" [(ngModel)]="registerObject.vehicleType" id="vehicleType" name="vehicleType" placeholder=" " required />
+        <label for="vehicleType">Vehicle Type</label>
+      </div>
+
+      <div *ngIf="registerObject.role !== 'user'" class="form-group">
+        <input type="text" [(ngModel)]="registerObject.storeId" id="storeId" name="storeId" placeholder=" " />
+        <label for="storeId">Store ID</label>
+      </div>
+
+      <div *ngIf="registerObject.role === 'owner'" class="form-group">
+        <input type="text" [(ngModel)]="registerObject.storeName" id="storeName" name="storeName" placeholder=" " required />
+        <label for="storeName">Store Name</label>
+      </div>
+
+      <div *ngIf="registerObject.role === 'owner'" class="form-group">
+        <input type="text" [(ngModel)]="registerObject.storeLocation" id="storeLocation" name="storeLocation" placeholder=" " required />
+        <label for="storeLocation">Store Location</label>
       </div>
 
       <!-- Register Button -->
-      <button type="submit" class="button" (click)="whenRegister()">Register</button>
+      <button type="submit" class="btn-register">Register</button>
     </form>
-
-    <div class="footer">
-      <a routerLink="/login">Login here</a>
-    </div>
   </div>
 </main>

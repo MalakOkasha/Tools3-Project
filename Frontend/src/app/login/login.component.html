@@ -1,3 +1,5 @@
+
+
 <head> 
   <title>Login</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -6,9 +8,9 @@
 <main class="main">
   <div class="login-container">
     <div class="logo">
-      
+      <h2>Welcome Back</h2>
     </div>
-    
+
     <form>
       <div class="form-group">
         <label for="email">Email Address</label>
@@ -26,22 +28,32 @@
         </div>
       </div>
 
-      
-      <div class="form-group">
-        <label for="role">Role</label>
-        <div class="input-icon">
-          <i class="fa-solid fa-user"></i>
-          <select [(ngModel)]="loginObject.Role" id="role" name="role" required>
-            <option value="user">User</option>
-            <option value="courier">Courier</option>
-            <option value="admin">Admin</option>
-          </select>
+      <!-- Role Selection -->
+      <div class="form-group role-selection">
+        <label>Select Your Role</label>
+        <div class="role-cards">
+          <div class="role-card" [class.selected]="loginObject.Role === 'user'" (click)="selectRole('user')">
+            <i class="fa-solid fa-user"></i>
+            <p>User</p>
+          </div>
+          <div class="role-card" [class.selected]="loginObject.Role === 'courier'" (click)="selectRole('courier')">
+            <i class="fa-solid fa-truck"></i>
+            <p>Courier</p>
+          </div>
+          <div class="role-card" [class.selected]="loginObject.Role === 'admin'" (click)="selectRole('admin')">
+            <i class="fa-solid fa-shield-alt"></i>
+            <p>Admin</p>
+          </div>
+          <div class="role-card" [class.selected]="loginObject.Role === 'owner'" (click)="selectRole('owner')">
+            <i class="fa-solid fa-store"></i>
+            <p>Store Owner</p>
+          </div>
         </div>
       </div>
 
       <button type="submit" class="button" (click)="whenLogin()">Login</button>
     </form>
-    
+
     <div class="footer">
       <a routerLink="/register">Register here</a>
     </div>

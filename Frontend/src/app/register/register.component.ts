@@ -1,76 +1,123 @@
-
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import {GlobalService} from '../services/global.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [FormsModule, HttpClientModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css'],
+  standalone: true,
+  imports: [FormsModule, CommonModule] // Add CommonModule here
 })
 export class RegisterComponent {
+  registerObject: any = {
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    phone: '',
+    role: '',
+    location: '',
+    vehicleType: '', // For Courier
+    storeId: '', // For Admin and Courier
+    storeName: '', // For Owner
+    storeLocation: '', // For Owner
+  };
 
-  registerObject: Register;
-
-  constructor(private http: HttpClient,private global:GlobalService){
-
-    this.registerObject = new Register()
-  }
+  constructor(private http: HttpClient) {}
 
   whenRegister() {
-    console.log('Register button clicked:', this.registerObject);
+    // Form validation
+    if (!this.registerObject.name || !this.registerObject.email || !this.registerObject.password || !this.registerObject.confirmPassword || !this.registerObject.phone || !this.registerObject.role || !this.registerObject.location) {
+      alert('Please fill in all required fields.');
+      return;
+    }
 
-    this.http.post('http://localhost:8080/register', this.registerObject).subscribe(
-      (res: any) => {
-        if (res.result) {
-          alert("You registered successfully :)");
-          const token = res.token; // Extract the token
-          const user = res.user;   // Extract the user data
-          const user_type = res.user.type;   // Extract the user type from data
-          localStorage.setItem('token', token); // Save the token
-          localStorage.setItem('user_type', user_type); // Save the user type
-          this.global.is_login = true; // make user login is global in website
-          this.global.type = user_type; // make user type is global in website
-        } else {
-          alert('Registration failed: ' + (res.message || 'Invalid response from the server.'));
-          console.log('Server response:', res);
-        }
+    if (this.registerObject.password !== this.registerObject.confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+
+    const { role } = this.registerObject;
+    let apiUrl = '';
+    let payload: any = {};
+
+    // Set the API URL and payload based on the role
+    switch (role) {
+      case 'user':
+        apiUrl = 'http://localhost:8080/users/register';
+        payload = {
+          email: this.registerObject.email,
+          location: this.registerObject.location,
+          name: this.registerObject.name,
+          password: this.registerObject.password,
+          phone: this.registerObject.phone,
+        };
+        break;
+      case 'courier':
+        apiUrl = 'http://localhost:8080/couriers/register';
+        payload = {
+          email: this.registerObject.email,
+          location: this.registerObject.location,
+          name: this.registerObject.name,
+          password: this.registerObject.password,
+          phone: this.registerObject.phone,
+          vehicle_type: this.registerObject.vehicleType,
+          store_id: this.registerObject.storeId,
+        };
+        break;
+      case 'admin':
+        apiUrl = 'http://localhost:8080/admins/register';
+        payload = {
+          email: this.registerObject.email,
+          location: this.registerObject.location,
+          name: this.registerObject.name,
+          password: this.registerObject.password,
+          phone: this.registerObject.phone,
+          store_id: this.registerObject.storeId,
+        };
+        break;
+      case 'owner':
+        apiUrl = 'http://localhost:8080/owners/register';
+        payload = {
+          email: this.registerObject.email,
+          location: this.registerObject.location,
+          name: this.registerObject.name,
+          password: this.registerObject.password,
+          phone: this.registerObject.phone,
+          store_name: this.registerObject.storeName,
+          store_location: this.registerObject.storeLocation,
+        };
+        break;
+      default:
+        alert('Invalid role selected');
+        return;
+    }
+
+    // Send the HTTP POST request
+    this.http.post(apiUrl, payload).subscribe(
+      (response) => {
+        console.log('Registration successful:', response);
+        alert('Registration successful!');
       },
       (error) => {
         console.error('Registration error:', error);
-
-        // Improved error handling
-        if (error.error) {
-          alert('Error: ' + (error.error.message || JSON.stringify(error.error))); // Display more specific error message
-        } else if (error.status === 0) {
-          alert('Network error: Unable to reach the server.');
+        if (error.error && error.error.message) {
+          alert(`Error: ${error.error.message}`);
         } else {
-          alert('An error occurred during registration. Status: ' + error.status + ' - ' + error.message);
+          alert('Registration failed. Please try again.');
         }
       }
     );
-}
+  }
 
-
-}
-export class Register{
-  email: string;
-  password: string;
-  phone: string;
-  name: string;
-  Role: string;
-
-  constructor() {
-    this.email = '';
-    this.password = '';
-    this.phone ='';
-    this.name ='';
-    this.Role = 'user';
-
+  onRoleChange() {
+    // Reset fields based on selected role
+    this.registerObject.location = '';
+    this.registerObject.vehicleType = '';
+    this.registerObject.storeId = '';
+    this.registerObject.storeName = '';
+    this.registerObject.storeLocation = '';
   }
 }
-

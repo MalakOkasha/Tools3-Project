@@ -1,3 +1,4 @@
+
 * {
   box-sizing: border-box;
   font-family: Arial, sans-serif;
@@ -10,7 +11,7 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #e5eaf5;
+  background: linear-gradient(to right, #6a82fb, #fc5c7d);
 }
 
 .main {
@@ -21,17 +22,17 @@ body, html {
 }
 
 .login-container {
-  max-width: 360px;
+  max-width: 400px;
   width: 100%;
   background-color: #ffffff;
   border-radius: 20px;
   padding: 40px 20px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 26px;
   color: #333;
   margin-bottom: 20px;
 }
@@ -64,26 +65,13 @@ label {
   margin-right: 10px;
 }
 
-.input-icon input,
-.input-icon select {
+.input-icon input {
   border: none;
   outline: none;
   background: none;
   width: 100%;
   font-size: 16px;
-  color: #959393;
-}
-
-.input-icon select {
-  padding: 0 4px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  cursor: pointer;
-}
-
-.show-hide {
-  cursor: pointer;
+  color: #333;
 }
 
 .button {
@@ -92,7 +80,7 @@ label {
   background-color: #3d4785;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
@@ -105,16 +93,54 @@ label {
   background-color: #2f366b;
 }
 
-.footer {
+.role-selection {
+  margin-bottom: 20px;
+}
+
+.role-cards {
   display: flex;
+  gap: 10px;
   justify-content: space-between;
+}
+
+.role-card {
+  flex: 1;
+  padding: 20px;
+  background-color: #f7f8fc;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.role-card i {
+  font-size: 24px;
+  color: #555;
+}
+
+.role-card p {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+}
+
+.role-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.role-card.selected {
+  border: 2px solid #3d4785;
+  background-color: #e0e4f7;
+}
+
+.footer {
   margin-top: 20px;
   font-size: 14px;
   color: #888;
 }
 
 .footer a {
-  cursor: pointer;
   color: #3d4785;
-  text-align: center;
 }

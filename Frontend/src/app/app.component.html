@@ -17,6 +17,10 @@
           <a routerLink="/assigned-orders" routerLinkActive="active-link">assigned Orders</a>
           <a routerLink="/update-order" routerLinkActive="active-link">update Orders</a>
         </ng-template>
+        <ng-template *ngif="global.type == 'owner'">
+          <a routerLink="/assigned-orders" routerLinkActive="active-link">assigned Orders</a>
+          <a routerLink="/update-order" routerLinkActive="active-link">update Orders</a>
+        </ng-template>
       </ng-template>
     </nav>
   </div>
