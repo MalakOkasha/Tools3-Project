@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import {GlobalService} from '../services/global.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,13 +14,13 @@ import {GlobalService} from '../services/global.service';
 export class LoginComponent {
   loginObject: Login;
 
-  constructor(private http: HttpClient,private global:GlobalService) {
+  constructor(private http: HttpClient, private router: Router) {
     this.loginObject = new Login();
   }
 
   whenLogin() {
     console.log('Login button clicked:', this.loginObject);
-
+    
     // Define headers for the request
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -31,16 +31,19 @@ export class LoginComponent {
     this.http.post('http://localhost:8080/login', this.loginObject, { headers }).subscribe(
       (res: any) => {
         console.log('Response from login API:', res);
-
+        
         if (res && res.token && res.user) {
           const token = res.token; // Extract the token
           const user = res.user;   // Extract the user data
-          const user_type = res.user.type;   // Extract the user type from data
+
+          console.log('Login successful!');
+          console.log('Token:', token);
+          console.log('User:', user);
+          console.log('User Email:', user.Email);
+
           alert("You logged in successfully :)");
           localStorage.setItem('token', token); // Save the token
-          localStorage.setItem('user_type', user_type); // Save the user type
-          this.global.is_login = true; // make user login is global in website
-          this.global.type = user_type; // make user type is global in website
+          this.router.navigate(['/place-order']); //redirection to the place order page
         } else {
           alert('Login failed: Invalid response from the server.');
           console.log('Invalid response:', res);
@@ -61,9 +64,11 @@ export class LoginComponent {
 export class Login {
   Email: string;
   Password: string;
-
+  Role: string;
+  
   constructor() {
     this.Email = '';
     this.Password = '';
+    this.Role = 'user'; 
   }
 }
