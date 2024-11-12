@@ -1,0 +1,86 @@
+<div class="container">
+  <h2>🚚 Order Management</h2>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="loading-overlay">
+    <p>Loading... 🔄</p>
+  </div>
+
+  <!-- Form to List Orders by Courier ID -->
+  <div class="form-section">
+    <h3>🔍 List Orders</h3>
+    <input
+      [(ngModel)]="selectedCourierId"
+      placeholder="Enter Courier ID to view its orders"
+      title="Courier ID to filter orders"
+      aria-label="Courier ID"
+    />
+    <button class="primary-btn" (click)="listOrders()" [disabled]="isLoading">
+      List Orders
+    </button>
+  </div>
+
+  <!-- Display List of Orders -->
+  <div class="orders-list" *ngIf="orderList.length > 0">
+    <h3>📝 Orders List</h3>
+    <ul>
+      <li *ngFor="let order of orderList" class="order-card">
+        <div class="order-info">
+          <h4>Order ID: {{ order.id }}</h4>
+          <p>Status: <span [class]="order.status.toLowerCase()">{{ order.status }}</span> - ${{ order.total_Price }}</p>
+        </div>
+        <div class="order-actions">
+          <button class="action-btn" (click)="getOrderById(order.id)">Details</button>
+
+          <!-- Cancel Button -->
+          <button
+            class="action-btn danger"
+            *ngIf="order.status.toLowerCase() !== 'delivered' && order.status.toLowerCase() !== 'canceled'"
+            (click)="cancelOrder(order.id)"
+          >
+            Cancel
+          </button>
+
+          <!-- Delete Button -->
+          <button
+            class="action-btn delete"
+            *ngIf="order.status.toLowerCase() === 'delivered'"
+            (click)="deleteOrder(order.id)"
+          >
+            Delete
+          </button>
+
+          <!-- Unique Status Change Dropdown -->
+          <div *ngIf="order.status.toLowerCase() !== 'delivered' && order.status.toLowerCase() !== 'canceled'">
+            <label for="status-{{ order.id }}">Change Status:</label>
+            <select
+              id="status-{{ order.id }}"
+              [(ngModel)]="order.newStatus"
+              (change)="updateOrderStatus(order.id, order.newStatus)"
+            >
+              <option [value]="order.status" disabled selected>{{ order.status }}</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="shipped">Shipped</option>
+            </select>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Display Selected Order Details -->
+  <div class="order-details" *ngIf="order?.order?.id">
+    <h3>📦 Order Details</h3>
+    <p><strong>Order ID:</strong> {{ order?.order?.id }}</p>
+    <p><strong>Status:</strong> <span [class]="order?.order?.status.toLowerCase()">{{ order?.order?.status }}</span></p>
+    <p><strong>Total Price:</strong> ${{ order?.order?.total_price }}</p>
+    <p><strong>Pickup Location:</strong> {{ order?.order?.pickup_location }}</p>
+    <p><strong>Drop-off Location:</strong> {{ order?.order?.drop_off_location }}</p>
+    <p><strong>Items:</strong>
+      <span *ngFor="let item of order?.items">{{ item.name }} (${{ item.price }})</span>
+    </p>
+    <p><strong>Store:</strong> {{ order?.store?.name }} - {{ order?.store?.location }}</p>
+    <p><strong>User:</strong> {{ order?.user?.name }} - {{ order?.user?.location }}</p>
+  </div>
+</div>

@@ -1,58 +1,228 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-my-orders',
+  selector: 'app-order',
   standalone: true,
-  imports: [HttpClientModule, CommonModule],
   templateUrl: './my-orders.component.html',
-  styleUrl: './my-orders.component.css'
+  styleUrls: ['./my-orders.component.css'],
+  imports: [FormsModule, CommonModule],
 })
-export class MyOrdersComponent implements OnInit{
-  orders: any[] = []; // Array to store the orders of a user
-  userId: string = '12345'; // el 7eta de lesa me7taga tetzabat 3ashan el id is dynamic according to which user is logged in
+export class OrderComponent {
+  selectedOrderId: string | null = null;  // Track selected order ID
+  orderList: any[] = [];
+  order: any = {
+    id: '',
+    user_id: '',
+    store_id: '',
+    itemIdsInput: '',
+    total_Price: 0,
+    pickupLocation: '',
+    dropOffLocation: '',
+    itemIds: [],
+    status: 'Pending',
+    store: {},
+    user: {},
+    items: []
+  };
+  selectedUserId: string = '';
+  isLoading: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
-  ngOnInit(): void { // used to perform initialization logic, such as fetching data or setting up state
-    this.fetchOrders(); //responsible for loading the orders immediately after the component is created
-  }
-  viewOrderDetails(orderId: string) {
-    this.router.navigate(['/orders', orderId]);
-  }
-  fetchOrders() { // respnsible for loading data from the api
-    // Retrieve the token from local storage
-    const token = localStorage.getItem('token');
-
-    // Check if the token exists
-    if (!token) {
-      alert("You need to log in to view your orders.");
-      this.router.navigate(['/login']);
+  // Add a new order
+  addOrder() {
+    if (!this.order.user_id || !this.order.item_ids ) {
+      alert('Please fill in the required fields.');
       return;
     }
 
-    // Set up headers with the token
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
+    // Convert comma-separated item IDs to an array
+    this.order.item_ids = this.order.item_ids.split(',').map((id: string) => id.trim());
 
-    // Make the GET request with the token in headers
-    this.http.get(`http://localhost:8080/users/${this.userId}/orders`, { headers }).subscribe(
-      (ordersList: any) => {
-        this.orders = ordersList;
-      },
-      error => {
-        console.error('Error fetching orders:', error);
-        if (error.status === 401) {
-          alert("Session expired. Please log in again.");
-          this.router.navigate(['/login']);
-        } else {
-          alert("Failed to fetch orders. Please try again.");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    this.isLoading = true;
+    this.http.post('http://localhost:8080/orders/add', this.order, { headers })
+      .subscribe(
+        (response: any) => {
+          alert('Order added successfully.');
+          this.clearOrderForm();
+          this.listOrders();
+        },
+        (error: any) => {
+          console.error('Error adding order:', error);
+          alert('Failed to add order. Please try again.');
+        },
+        () => {
+          this.isLoading = false;
         }
+      );
+  }
+
+  // List all orders for the selected user
+  listOrders() {
+    if (!this.selectedUserId) {
+      alert('Please enter a user ID.');
+      return;
+    }
+
+    this.isLoading = true;
+    this.http.get(`http://localhost:8080/orders/list/user/${this.selectedUserId}`)
+      .subscribe(
+        (response: any) => {
+          this.orderList = response;
+        },
+        (error: any) => {
+          console.error('Error fetching orders:', error);
+          alert('Failed to fetch orders.');
+        },
+        () => {
+          this.isLoading = false;
+        }
+      );
+  }
+
+  // Get order details by ID
+  getOrderById(id: string) {
+    if (!id) {
+      alert('Order ID is required.');
+      return;
+    }
+
+    // Toggle the selectedOrderId to show or hide the details
+    if (this.selectedOrderId === id) {
+      this.selectedOrderId = null;  // If already selected, deselect the order
+    } else {
+      this.selectedOrderId = id;
+
+      this.isLoading = true;
+      this.http.get(`http://localhost:8080/orders/${id}`)
+        .subscribe(
+          (response: any) => {
+            console.log('Order Details Response:', response);
+            // Make sure we are correctly assigning the data to the order object
+            this.order = response;  // Assuming response has the full order object
+            if (!this.order.items) {
+              this.order.items = [];  // Ensure items is an array
+            }
+          },
+          (error: any) => {
+            console.error('Error fetching order:', error);
+            alert('Order not found.');
+          },
+          () => {
+            this.isLoading = false;
+          }
+        );
+    }
+  }
+
+  // Delete an order by ID
+  deleteOrder(id: string) {
+    if (!id) {
+      alert('Order ID is required.');
+      return;
+    }
+
+    console.log('Deleting order with ID:', id);
+
+    const url = `http://localhost:8080/orders/delete/${id}`;
+
+    this.isLoading = true;
+
+    this.http.delete(url).subscribe(
+      (response: any) => {
+        console.log('Response:', response);
+
+        if (response && response.message === 'Order deleted successfully') {
+          alert('Order deleted successfully.');
+          this.listOrders();
+        } else {
+          alert('Failed to delete order. Response message: ' + response.message);
+        }
+      },
+      (error: any) => {
+        console.error('Error:', error);
+        alert('Failed to delete order. Please try again.');
+      },
+      () => {
+        this.isLoading = false;
       }
     );
+  }
+
+
+  // Cancel an order by ID
+  cancelOrder(id: string) {
+    if (!id) {
+      alert('Order ID is required.');
+      return;
+    }
+
+    const confirmation = confirm('Are you sure you want to cancel this order?');
+    if (!confirmation) return;
+
+    this.isLoading = true;
+    this.http.patch(`http://localhost:8080/orders/cancel/${id}`, {}).subscribe({
+      next: (response: any) => {
+        alert('Order canceled successfully.');
+        this.listOrders();
+      },
+      error: (error: any) => {
+        // Improved error handling
+        if (error.error && typeof error.error === 'string') {
+          alert(error.error);
+        } else if (error.status === 0) {
+          alert('Network error: Unable to reach the server. Please check your connection.');
+        } else {
+          alert(`Unexpected error: ${error.message || 'An error occurred.'}`);
+        }
+        console.error('Error canceling order:', error);
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
+    });
+  }
+
+
+
+
+
+  // Helper method to clear the order form
+  clearOrderForm() {
+    this.order = {
+      id: '',
+      user_id: '',
+      store_id: '',
+      itemIdsInput: '',
+      total_Price: 0,
+      pickupLocation: '',
+      dropOffLocation: '',
+      itemIds: [],
+      status: 'Pending',
+      store: {},
+      user: {},
+      items: []
+    };
+  }
+
+  // Method to get the CSS class for order status
+  getStatusClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return 'pending';
+      case 'shipped':
+        return 'shipped';
+      case 'delivered':
+        return 'delivered';
+      case 'cancelled':
+        return 'cancelled';
+      default:
+        return '';
+    }
   }
 }

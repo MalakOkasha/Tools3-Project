@@ -1,82 +1,169 @@
-* {
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-  }
-  
-  body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #e5eaf5;
-  }
-  
-  .orders-container {
-    max-width: 500px;
-    width: 100%;
-    background-color: #ffffff;
-    border-radius: 20px;
-    padding: 40px 20px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .orders-container h2 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  li {
-    background-color: #f7f8fc;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(154, 153, 153, 0.05);
-    text-align: left;
-  }
-  
-  li h3 {
-    font-size: 18px;
-    color: #3d4785;
-    margin: 0;
-  }
-  
-  li p {
-    font-size: 16px;
-    color: #666;
-    margin: 5px 0 0;
-  }
-  
-  .noOrders-message {
-    font-size: 18px;
-    color: #3d4785;
-  }
-   button {
-      width: 100%;
-      padding: 12px;
-      background-color: #3d4785;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-      margin-top: 20px;
-      transition: background-color 0.3s;
-    }
-    
-    button:hover {
-      background-color: #2f366b;
-    }
-  
- 
-  
+/* General Layout */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 20px;
+  background-color: #f8f9fa; /* Light background for the page */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+}
+
+h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Form Section Styling */
+.form-section {
+  margin-bottom: 20px;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #333;
+}
+
+input:focus {
+  outline: none;
+  border-color: #6a82fb;
+  box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
+}
+
+button.primary-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #6a82fb;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button.primary-btn:disabled {
+  background-color: #b0c4de;
+  cursor: not-allowed;
+}
+
+button.primary-btn:hover {
+  background-color: #6a82fb;
+}
+
+/* Orders List */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.order-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.order-info h4 {
+  font-size: 20px;
+  color: #333;
+}
+
+.order-info p {
+  color: #666;
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.order-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.action-btn {
+  padding: 10px 20px;
+  background-color: #6a82fb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+  background-color: #6a82fb;
+}
+
+.action-btn.danger {
+  background-color: #f44336;
+}
+
+.action-btn.danger:hover {
+  background-color: #e53935;
+}
+
+/* Order Details Styling */
+.order-details {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.order-details h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.order-details p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #444;
+}
+
+.order-details span {
+  display: block;
+  font-size: 14px;
+  color: #6a82fb;
+  margin-top: 5px;
+}
+
+.order-details span:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

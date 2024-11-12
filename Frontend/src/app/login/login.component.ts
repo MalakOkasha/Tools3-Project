@@ -71,7 +71,24 @@ export class LoginComponent {
 
         alert(`Welcome back, ${user.name || 'User'}!`);
         localStorage.setItem('token', token);
-        this.router.navigate(['/place-order']);
+        switch (this.loginObject.Role) {
+          case 'user':
+            this.router.navigate(['/my-orders']);
+            break;
+          case 'courier':
+            this.router.navigate(['/courier']);
+            break;
+          case 'admin':
+            this.router.navigate(['/item']);
+            break;
+          case 'owner':
+            this.router.navigate(['/item']);
+            break;
+          default:
+            alert('Invalid role selected.');
+            return;
+        }
+        
       } else {
         alert('Login failed: Invalid credentials or server response.');
         console.log('Invalid response:', res);

@@ -5,38 +5,38 @@
   <div class="form-section">
     <h3>Add New Item</h3>
     <!-- User ID Input -->
-    <input [(ngModel)]="item.userId" placeholder="Enter User ID (Who is adding the item)" title="User ID associated with this item" />
-    
+    <input [(ngModel)]="item.user_id" placeholder="Enter User ID (Who is adding the item)" title="User ID associated with this item" />
+
     <!-- Store ID Input -->
-    <input [(ngModel)]="item.storeId" placeholder="Enter Store ID this item belongs to" title="Store ID where this item is listed" />
-    
+    <input [(ngModel)]="item.store_id" placeholder="Enter Store ID this item belongs to" title="Store ID where this item is listed" />
+
     <!-- Item Name Input -->
     <input [(ngModel)]="item.name" placeholder="Enter Item Name (e.g., Laptop, Shoes)" title="Name of the item" />
-    
+
     <!-- Item Description -->
     <textarea [(ngModel)]="item.description" placeholder="Provide a Description for the Item" title="Item description (e.g., Features, specifications)"></textarea>
-    
+
     <!-- Price Input -->
     <div class="input-group">
       <label for="price">Price</label>
       <input id="price" [(ngModel)]="item.price" type="number" placeholder="Enter the Price (in USD)" title="Price of the item" />
     </div>
-    
+
     <!-- Stock Input -->
     <div class="input-group">
       <label for="stock">Stock</label>
       <input id="stock" [(ngModel)]="item.stock" type="number" placeholder="Enter Available Stock" title="Number of items in stock" />
     </div>
-    
+
     <!-- Category Input -->
     <input [(ngModel)]="item.category" placeholder="Enter Category (e.g., Electronics, Clothing)" title="Category of the item" />
-    
+
     <!-- Cover Image URL Input -->
-    <input [(ngModel)]="item.coverLink" placeholder="Enter Cover Image URL" title="URL for the cover image" />
-    
+    <input [(ngModel)]="item.cover_link" placeholder="Enter Cover Image URL" title="URL for the cover image" />
+
     <!-- Additional Images Input -->
     <input [(ngModel)]="item.images" placeholder="Enter Image URLs (comma-separated)" title="Comma-separated URLs for additional images" />
-    
+
     <!-- Add Item Button -->
     <button class="primary-btn" (click)="addItem()" [disabled]="isLoading">Add Item</button>
   </div>
@@ -73,6 +73,6 @@
     <p><strong>Price:</strong> ${{ item.price }}</p>
     <p><strong>Stock:</strong> {{ item.stock }}</p>
     <p><strong>Category:</strong> {{ item.category }}</p>
-    <img *ngIf="item.coverLink" [src]="item.coverLink" alt="Cover Image" class="cover-image" />
+    <img *ngIf="item.cover_link" [src]="item.cover_link" alt="Cover Image" class="cover-image" />
   </div>
 </div>

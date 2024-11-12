@@ -1,15 +1,73 @@
-<div *ngIf="orders.length > 0; else empty" class="orders-container"> <!--checking if the orders list is not empty-->
-    <h2>Your Orders</h2>
+<div class="container">
+  <h2>Order Management</h2>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="loading-overlay">
+    <p>Loading...</p>
+  </div>
+
+  <!-- Form to Add New Order -->
+  <div class="form-section">
+    <h3>Add New Order</h3>
+    <input [(ngModel)]="order.user_id" placeholder="Enter User ID" title="User ID associated with this order" />
+    <input [(ngModel)]="order.item_ids" placeholder="Enter Item IDs (comma-separated)" title="Comma-separated list of Item IDs" />
+    <input [(ngModel)]="order.pickupLocation" placeholder="Enter Pickup Location" title="Pickup location for the order" />
+    <input [(ngModel)]="order.dropOffLocation" placeholder="Enter Drop-off Location" title="Drop-off location for the order" />
+    <button class="primary-btn" (click)="addOrder()" [disabled]="isLoading">Add Order</button>
+  </div>
+
+  <!-- Form to List Orders by User ID -->
+  <div class="form-section">
+    <h3>List Orders</h3>
+    <input [(ngModel)]="selectedUserId" placeholder="Enter User ID to view its orders" title="User ID to filter orders" />
+    <button class="primary-btn" (click)="listOrders()" [disabled]="isLoading">List Orders</button>
+  </div>
+
+  <!-- Display List of Orders -->
+  <div class="orders-list" *ngIf="orderList.length > 0">
+    <h3>Orders List</h3>
     <ul>
-      <li *ngFor="let order of orders"> <!-- looping through each item in the orders array and creating a list item for each order-->
-        <h3>Order ID: {{ order.id }}</h3> <!--displaying order id-->
-        <p>Order Status: {{ order.status }}</p> <!--displaying order status-->
-        <button (click)="viewOrderDetails(order.id)">View Details</button> <!-- Link to details page -->
+      <li *ngFor="let order of orderList" class="order-card">
+        <div class="order-info">
+          <h4>Order ID: {{ order.id }}</h4>
+          <p>Status: {{ order.status }} - ${{ order.total_Price }}</p>
+        </div>
+        <div class="order-actions">
+          <button class="action-btn" (click)="getOrderById(order.id)">Details</button>
+
+          <!-- Conditionally render Cancel or Delete button based on order status -->
+          <button
+            class="action-btn danger"
+            *ngIf="order.status.toLowerCase() !== 'delivered'"
+            (click)="cancelOrder(order.id)"
+          >
+            Cancel
+          </button>
+
+          <button
+            class="action-btn danger"
+            *ngIf="order.status.toLowerCase() === 'delivered'"
+            (click)="deleteOrder(order.id)"
+          >
+            Delete
+          </button>
+        </div>
       </li>
     </ul>
   </div>
-  
-  <ng-template #empty>
-    <p class="noOrders-message">You Have No Orders Yet!</p>
-  </ng-template>
-  
+
+  <!-- Display Selected Order Details -->
+  <div class="order-details" *ngIf="order?.order?.id">
+    <h3>Order Details</h3>
+    <p><strong>Order ID:</strong> {{ order?.order?.id }}</p>
+    <p><strong>Status:</strong> {{ order?.order?.status }}</p>
+    <p><strong>Total Price:</strong> ${{ order?.order?.total_price }}</p>
+    <p><strong>Pickup Location:</strong> {{ order?.order?.pickup_location }}</p>
+    <p><strong>Drop-off Location:</strong> {{ order?.order?.drop_off_location }}</p>
+    <p><strong>Items:</strong>
+      <span *ngFor="let item of order?.items">{{ item.name }} (${{ item.price }})</span>
+    </p>
+    <p><strong>Store:</strong> {{ order?.store?.name }} - {{ order?.store?.location }}</p>
+    <p><strong>User:</strong> {{ order?.user?.name }} - {{ order?.user?.location }}</p>
+  </div>
+</div>

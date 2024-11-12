@@ -100,6 +100,7 @@ export class RegisterComponent {
       (response) => {
         console.log('Registration successful:', response);
         alert('Registration successful!');
+        
       },
       (error) => {
         console.error('Registration error:', error);
