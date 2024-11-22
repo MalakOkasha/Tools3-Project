@@ -1,219 +1,220 @@
-/* General Layout */
+/* General Container */
 .container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-  background-color: #f1f5f9;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 40px;
+  background: #f8f9fa;
   border-radius: 16px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+  color: #1f2937;
 }
 
+/* Titles */
 h2 {
-  font-size: 32px;
-  color: #1e40af;
+  font-size: 36px; /* Increased size for prominence */
+  color: #1e3a8a;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px; /* Added more spacing */
 }
 
-/* Responsive Layout */
-@media (max-width: 600px) {
-  h2 {
-    font-size: 28px;
-  }
-
-  input,
-  button.primary-btn {
-    font-size: 14px;
-  }
-
-  .order-card {
-    padding: 15px;
-  }
-
-  .order-actions {
-    flex-direction: column;
-    gap: 5px;
-  }
+h3 {
+  font-size: 22px; /* Slightly larger title */
+  color: #4b5563;
+  margin-bottom: 25px; /* More spacing below the titles */
 }
 
-/* Form Section Styling */
+/* Form Section */
 .form-section {
-  margin-bottom: 20px;
-  background-color: #ffffff;
-  border-radius: 16px;
+  background: #ffffff;
+  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Increased gap between input and button */
+}
+
+.modern-input {
+  flex: 1;
+  padding: 12px 20px;
   font-size: 16px;
-  color: #374151;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  transition: border-color 0.3s;
 }
 
-input:focus {
+.modern-input:focus {
+  border-color: #1d4ed8;
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
 }
 
-/* Primary Button */
-button.primary-btn {
-  width: 100%;
-  padding: 14px;
-  background-color: #2563eb;
-  color: #ffffff;
-  font-size: 18px;
-  border: none;
-  border-radius: 12px;
+/* Buttons */
+.modern-btn {
+  padding: 12px 25px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
-button.primary-btn:disabled {
-  background-color: #93c5fd;
-  cursor: not-allowed;
+.primary-btn {
+  background: #1d4ed8;
+  color: white;
+  border: none;
 }
 
-button.primary-btn:hover {
-  background-color: #1d4ed8;
-  transform: translateY(-2px);
+.primary-btn:hover {
+  background: #2563eb;
+  transform: scale(1.05);
 }
 
-/* Orders List */
-.orders-list {
-  margin-top: 20px;
+.secondary-btn {
+  background: #4ade80;
+  color: white;
+  border: none;
+}
+
+.secondary-btn:hover {
+  background: #22c55e;
+  transform: scale(1.05);
+}
+
+.danger-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+}
+
+.danger-btn:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+.delete-btn {
+  background: #f97316;
+  color: white;
+  border: none;
+}
+
+.delete-btn:hover {
+  background: #ea580c;
+  transform: scale(1.05);
+}
+
+/* Orders Grid */
+.order-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(370px, 1fr)); /* Increased min-width for items */
+  gap: 30px; /* More spacing between order cards */
 }
 
 .order-card {
-  padding: 20px;
-  background-color: #ffffff;
+  background: white;
   border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  margin-bottom: 15px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  padding: 25px; /* Increased padding for better content spacing */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
 }
 
 .order-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05); /* Increased hover scale for more emphasis */
 }
 
-.order-info h4 {
-  font-size: 20px;
-  color: #1e3a8a;
-}
-
-.order-info p {
-  font-size: 16px;
-  color: #475569;
-}
-
-/* Action Buttons */
-.order-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.action-btn {
-  padding: 10px 20px;
+/* Order Status Badges */
+.status-badge {
+  padding: 6px 14px; /* Increased padding for better readability */
   border-radius: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.action-btn:hover {
-  filter: brightness(0.9);
-  transform: translateY(-2px);
-}
-
-.action-btn.danger {
-  background-color: #ef4444;
-  color: #ffffff;
-}
-
-.action-btn.danger:hover {
-  background-color: #dc2626;
-}
-
-.action-btn.delete {
-  background-color: #10b981;
-  color: #ffffff;
-}
-
-.action-btn.delete:hover {
-  background-color: #059669;
-}
-
-/* Order Status Colors */
-span.delivered {
-  color: #10b981;
+  font-size: 14px; /* Larger font for better visibility */
+  text-transform: capitalize;
   font-weight: bold;
 }
 
-span.pending {
-  color: #f59e0b;
-  font-weight: bold;
+.status-badge.pending {
+  background: #fde68a;
+  color: #92400e;
 }
 
-span.cancelled {
-  color: #ef4444;
-  font-weight: bold;
+.status-badge.confirmed {
+  background: #bbf7d0;
+  color: #166534;
 }
 
-span.shipped {
-  color: #3b82f6;
-  font-weight: bold;
+.status-badge.shipped {
+  background: #bfdbfe;
+  color: #1d4ed8;
 }
 
-/* Order Details */
-.order-details {
-  margin-top: 20px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+.status-badge.delivered {
+  background: #d1fae5;
+  color: #065f46;
 }
 
-.order-details h3 {
-  font-size: 24px;
-  color: #1f2937;
-  margin-bottom: 20px;
+.status-badge.canceled {
+  background: #fecaca;
+  color: #991b1b;
 }
 
-.order-details p {
-  font-size: 16px;
-  color: #4b5563;
-  margin: 10px 0;
+/* Items Section */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Slightly larger minimum size */
+  gap: 25px; /* Increased gap between item cards */
 }
 
-.order-details span {
-  display: inline-block;
-  margin-top: 5px;
-  font-size: 14px;
-  color: #2563eb;
+.item-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px; /* Added padding for content spacing */
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Softer, larger shadow for a modern look */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
+  position: relative;
+  overflow: hidden;
 }
 
-/* Loading Overlay */
-.loading-overlay {
-  position: fixed;
+.item-card:hover {
+  transform: translateY(-8px); /* More pronounced hover effect */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); /* More intense shadow on hover */
+}
+
+.item-card:before {
+  content: '';
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: #1e40af;
-  z-index: 1000;
+  background: linear-gradient(135deg, #00bcd4, #8bc34a); /* Modern gradient border effect */
+  z-index: -1;
+  transform: scale(1.1); /* Slightly larger to create an outline effect */
+  border-radius: 12px;
+  opacity: 0.1;
+}
+
+.item-card .title {
+  font-size: 1.4rem; /* Larger title for more emphasis */
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 15px; /* Added spacing between title and other content */
+  text-transform: uppercase;
+}
+
+.item-card .description {
+  font-size: 1.1rem; /* Slightly larger description text */
+  color: #666666;
+  margin-bottom: 20px; /* More space before price */
+}
+
+.item-card .price {
+  font-size: 1.3rem; /* Increased font size for the price */
+  font-weight: 700;
+  color: #4caf50; /* Green color for price */
+  margin-top: 12px;
 }

@@ -1,35 +1,15 @@
 <header>
   <h1>Welcome to Cairo University Seniors</h1>
-  <div class="navigation">
-    <nav>
-      <a routerLink="/login" routerLinkActive="active-link">Login</a>
-      <a routerLink="/register" routerLinkActive="active-link">Register</a>
-      <ng-template *ngif="global.is_login">
-        <ng-template *ngif="global.type == 'user'">
-          <a routerLink="/my-orders" routerLinkActive="active-link">My Orders</a>
-          <a routerLink="/my-orders" routerLinkActive="active-link">My Orders</a>
-        </ng-template>
-        <ng-template *ngif="global.type == 'admin'">
-          <a routerLink="/item" routerLinkActive="active-link">manage Orders and Couriers</a>
-          <a routerLink="/item" routerLinkActive="active-link">manage Orders and Couriers</a>
-        </ng-template>
-        <ng-template *ngif="global.type == 'courier'">
-          <a routerLink="/courier" routerLinkActive="active-link">couriers </a>
-          <a routerLink="/courier" routerLinkActive="active-link">courier</a>
-        </ng-template>
-        <ng-template *ngif="global.type == 'owner'">
-          <a routerLink="/item" routerLinkActive="active-link">Items</a>
-          <a routerLink="/item" routerLinkActive="active-link">Items</a>
-        </ng-template>
-      </ng-template>
-    </nav>
-  </div>
 </header>
+
+<div class="header">
+  <button class="logout-btn" (click)="logout()">Logout</button>
+</div>
 
 <main class="main-content">
   <router-outlet></router-outlet>
 </main>
 
 <footer>
-  <p>&copy; 2024 Seniors</p>
+  <p>&copy; 2024 Cairo University Seniors. All Rights Reserved.</p>
 </footer>

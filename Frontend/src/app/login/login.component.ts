@@ -19,6 +19,9 @@ export class LoginComponent {
     this.loginObject = new Login();
   }
 
+  async whenRegister(){
+    this.router.navigate(['/register']);
+  }
   async whenLogin() {
     console.log('Login button clicked:', this.loginObject);
 

@@ -1,158 +1,152 @@
-/* Basic Reset */
-* {
+/* Full height and width for html and body */
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f4f8;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     box-sizing: border-box;
 }
 
-/* Ensure html and body take full height and width */
-html, body {
-    height: 100%; /* Full height for both html and body */
-    width: 100%; /* Full width for both html and body */
-}
-
-/* Global Styles */
-body {
-    font-family: 'Roboto', sans-serif; /* Modern font */
-    color: #333; /* Darker text color */
-    background-color: #f0f4f8; /* Light background color for a soft appearance */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center horizontally */
-    justify-content: space-between; /* Space between header, main content, and footer */
-    min-height: 100vh; /* Full viewport height */
-    padding: 0 20px; /* Horizontal padding for responsiveness */
-}
-
-/* Header Styles */
+/* Header */
 header {
     width: 100%;
-    background-color: #ffffff; /* Header background */
-    padding: 20px; /* Padding for header */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    text-align: center; /* Center text */
-    position: sticky; /* Sticky header */
-    top: 0; /* Sticks to the top */
-    z-index: 1000; /* Ensure it stays above other content */
+    background-color: #ffffff;
+    padding: 20px 20px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 h1 {
-    font-size: 2.5em; /* Large font size for title */
-    color: #3d4785; /* Primary color */
-    margin-bottom: 10px; /* Space below title */
-    font-weight: 600; /* Semi-bold weight */
-    text-transform: uppercase; /* Uppercase for modern touch */
+    font-size: 2.5em;
+    color: #3d4785;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0;
+    letter-spacing: 2px;
+    word-wrap: break-word;
+    line-height: 1.2;
 }
 
-/* Navigation Styles */
-.navigation {
-    margin-top: 10px; /* Space above navigation */
+/* Header Logout Section */
+.header {
+    position: sticky;
+    top: 60px;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
-.navigation nav {
+.logout-btn {
+    padding: 10px 20px;
+    background-color: #e74c3c; /* Red for logout */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logout-btn:hover {
+    background-color: #c0392b; /* Darker red for hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    width: 100%;
+    max-width: 900px;
+    padding: 30px;
+    background-color: #ffffff;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main {
     display: flex;
     justify-content: center;
-    gap: 30px; /* Space between links */
+    align-items: flex-start;
+    width: 100%;
+    padding: 20px;
 }
 
-.navigation a {
-    color: #3d4785; /* Primary color */
-    text-decoration: none;
-    font-weight: 500; /* Medium font weight */
-    padding: 10px 20px; /* Padding for links */
-    border-radius: 4px; /* Rounded corners */
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
-}
-
-.navigation a:hover {
-    background-color: #3d4785; /* Change background on hover */
-    color: #ffffff; /* White text on hover */
-    transform: translateY(-3px); /* Slight lift effect on hover */
-}
-
-/* Main Content Styles */
-.main-content {
-    flex-grow: 1; /* Allow main content to grow and take available space */
-    width: 100%; /* Full width */
-    max-width: 900px; /* Limit max width for larger screens */
-    padding: 30px; /* Padding around main content */
-    background-color: #ffffff; /* Clean white background */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
-    margin: 20px auto; /* Centering with equal margin on left and right */
-    display: flex; /* Flexbox for easy alignment */
-    flex-direction: column; /* Stack elements vertically */
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
-}
-
-/* Footer Styles */
+/* Footer */
 footer {
     text-align: center;
-    color: #777; /* Softer color for footer text */
-    font-size: 0.9em;
+    color: #777;
+    font-size: 1em;
     padding: 15px;
-    width: 100%; /* Full width for footer */
-    background-color: #ffffff; /* Footer background color */
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+    font-weight: 500;
+    border-top: 1px solid #e0e0e0;
 }
 
-/* Additional styles for responsiveness */
-@media (max-width: 600px) {
+footer p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
     h1 {
-        font-size: 2em; /* Adjust font size for smaller screens */
-    }
-
-    .navigation nav {
-        flex-direction: column; /* Stack links vertically on small screens */
-    }
-
-    .navigation a {
-        padding: 10px;
-        width: 100%; /* Full width buttons */
-        text-align: center; /* Center text */
+        font-size: 1.8em;
     }
 
     .main-content {
-        padding: 20px; /* Reduce padding on smaller screens */
-        margin: 10px; /* Slightly less margin for small screens */
+        padding: 20px;
+        margin: 10px;
+    }
+
+    footer {
+        font-size: 0.9em;
+        padding: 12px;
     }
 }
 
-/* Enhancements for buttons and interactions */
-.button {
-    background-color: #3d4785; /* Primary button color */
-    color: #ffffff; /* White text */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px 20px; /* Padding for button */
-    font-size: 1em; /* Font size for button */
-    cursor: pointer; /* Pointer cursor */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
-}
+/* Mobile View */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5em;
+    }
 
-.button:hover {
-    background-color: #3d4785; /* Darker shade on hover */
-    transform: translateY(-2px); /* Slight lift effect on hover */
-}
+    .main-content {
+        width: 90%;
+        padding: 15px;
+    }
 
-/* Additional styles for form inputs */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="tel"] {
-    width: 100%; /* Full width */
-    padding: 10px; /* Padding for inputs */
-    margin: 10px 0; /* Space around inputs */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 5px; /* Rounded corners */
-    transition: border-color 0.3s ease; /* Smooth border transition */
-}
+    footer {
+        font-size: 0.85em;
+        padding: 10px;
+    }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="tel"]:focus {
-    border-color: #3d4785; /* Change border color on focus */
-    outline: none; /* Remove outline */
+    .logout-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
 }

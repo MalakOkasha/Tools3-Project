@@ -2,63 +2,96 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
-  padding: 20px;
-  background-color: #f8f9fa; /* Light background for the page */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 40px;
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
 }
 
 h2 {
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #333;
+  font-size: 36px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 50px;
+  text-align: center;
 }
 
-/* Form Section Styling */
-.form-section {
-  margin-bottom: 20px;
+/* Loading Indicator */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Form Section */
+.form-section {
+  width: 100%;
+  max-width: 650px;
   background-color: #ffffff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 35px;
+  margin-bottom: 40px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
 .form-section h3 {
-  font-size: 22px;
-  margin-bottom: 15px;
-  color: #444;
+  font-size: 26px;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  font-weight: 600;
 }
 
-input {
+.input-group input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #dcdde1;
+  border-radius: 10px;
   font-size: 16px;
-  color: #333;
+  background-color: #f4f6f7;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-input:focus {
+.input-group input:focus {
+  border-color: #3498db;
   outline: none;
-  border-color: #6a82fb;
-  box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.4);
 }
 
+/* Button Styling */
 button.primary-btn {
   width: 100%;
-  padding: 12px;
-  background-color: #6a82fb;
+  padding: 18px;
+  background-color: #3498db;
   color: white;
-  font-size: 16px;
+  font-size: 18px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease;
 }
 
 button.primary-btn:disabled {
@@ -67,103 +100,250 @@ button.primary-btn:disabled {
 }
 
 button.primary-btn:hover {
-  background-color: #6a82fb;
+  background-color: #2980b9;
+  transform: translateY(-2px);
 }
 
 /* Orders List */
 .orders-list {
+  width: 100%;
+  max-width: 850px;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  margin-top: 50px;
 }
 
 .order-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  border-radius: 8px;
-  padding: 20px;
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .order-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-10px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
 }
 
 .order-info h4 {
-  font-size: 20px;
-  color: #333;
+  font-size: 24px;
+  color: #34495e;
+  margin-bottom: 10px;
 }
 
 .order-info p {
-  color: #666;
   font-size: 16px;
-  margin: 5px 0;
+  color: #7f8c8d;
+  margin: 8px 0;
 }
 
 .order-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 .action-btn {
-  padding: 10px 20px;
-  background-color: #6a82fb;
+  padding: 12px 24px;
+  background-color: #3498db;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  margin-left: 10px;
-  transition: background-color 0.3s ease;
+  margin-left: 15px;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .action-btn:hover {
-  background-color: #6a82fb;
+  background-color: #2980b9;
+  transform: translateY(-3px);
 }
 
 .action-btn.danger {
-  background-color: #f44336;
+  background-color: #e74c3c;
 }
 
 .action-btn.danger:hover {
-  background-color: #e53935;
+  background-color: #c0392b;
 }
 
-/* Order Details Styling */
+/* Order Details */
 .order-details {
-  margin-top: 20px;
-  padding: 20px;
+  width: 100%;
+  max-width: 850px;
+  padding: 35px;
+  margin-top: 50px;
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
 .order-details h3 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #333;
+  font-size: 30px;
+  margin-bottom: 25px;
+  color: #2c3e50;
+  font-weight: 700;
 }
 
 .order-details p {
-  margin: 10px 0;
-  font-size: 16px;
-  color: #444;
+  font-size: 18px;
+  color: #34495e;
+  margin: 12px 0;
 }
 
 .order-details span {
   display: block;
-  font-size: 14px;
-  color: #6a82fb;
-  margin-top: 5px;
+  font-size: 16px;
+  color: #3498db;
+  margin-top: 8px;
+  cursor: pointer;
 }
 
 .order-details span:hover {
   text-decoration: underline;
-  cursor: pointer;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 30px;
+  }
+
+  .form-section, .orders-list, .order-details {
+    width: 100%;
+  }
+
+  .order-card, .order-details {
+    margin-bottom: 25px;
+  }
+
+  button.primary-btn {
+    padding: 16px;
+    font-size: 16px;
+  }
+}
+
+
+/* Orders Grid */
+.order-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(370px, 1fr)); /* Increased min-width for items */
+  gap: 30px; /* More spacing between order cards */
+}
+
+.order-card {
+  background: white;
+  border-radius: 16px;
+  padding: 25px; /* Increased padding for better content spacing */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.order-card:hover {
+  transform: scale(1.05); /* Increased hover scale for more emphasis */
+}
+
+/* Order Status Badges */
+.status-badge {
+  padding: 6px 14px; /* Increased padding for better readability */
+  border-radius: 12px;
+  font-size: 14px; /* Larger font for better visibility */
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.status-badge.pending {
+  background: #fde68a;
+  color: #92400e;
+}
+
+.status-badge.confirmed {
+  background: #bbf7d0;
+  color: #166534;
+}
+
+.status-badge.shipped {
+  background: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.status-badge.delivered {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-badge.canceled {
+  background: #fecaca;
+  color: #991b1b;
+}
+
+/* Items Section */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Slightly larger minimum size */
+  gap: 25px; /* Increased gap between item cards */
+}
+
+.item-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px; /* Added padding for content spacing */
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Softer, larger shadow for a modern look */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
+  position: relative;
+  overflow: hidden;
+}
+
+.item-card:hover {
+  transform: translateY(-8px); /* More pronounced hover effect */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); /* More intense shadow on hover */
+}
+
+.item-card:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #023c43, #3498db); /* Modern gradient border effect */
+  z-index: -1;
+  transform: scale(1.1); /* Slightly larger to create an outline effect */
+  border-radius: 12px;
+  opacity: 0.1;
+}
+
+.item-card .title {
+  font-size: 1.4rem; /* Larger title for more emphasis */
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 15px; /* Added spacing between title and other content */
+  text-transform: uppercase;
+}
+
+.item-card .description {
+  font-size: 1.1rem; /* Slightly larger description text */
+  color: #666666;
+  margin-bottom: 20px; /* More space before price */
+}
+
+.item-card .price {
+  font-size: 1.3rem; /* Increased font size for the price */
+  font-weight: 700;
+  color: #4caf50; /* Green color for price */
+  margin-top: 12px;
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+

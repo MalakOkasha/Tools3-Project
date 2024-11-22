@@ -1,25 +1,26 @@
 <div class="container">
-  <h2>Order Management</h2>
-
-  <!-- Loading Indicator -->
-  <div *ngIf="isLoading" class="loading-overlay">
-    <p>Loading...</p>
+  <div class="header">
+    <h2>Order Management</h2>
   </div>
 
   <!-- Form to Add New Order -->
   <div class="form-section">
     <h3>Add New Order</h3>
-    <input [(ngModel)]="order.user_id" placeholder="Enter User ID" title="User ID associated with this order" />
-    <input [(ngModel)]="order.item_ids" placeholder="Enter Item IDs (comma-separated)" title="Comma-separated list of Item IDs" />
-    <input [(ngModel)]="order.pickupLocation" placeholder="Enter Pickup Location" title="Pickup location for the order" />
-    <input [(ngModel)]="order.dropOffLocation" placeholder="Enter Drop-off Location" title="Drop-off location for the order" />
+    <div class="input-group">
+      <input [(ngModel)]="order.user_id" placeholder="Enter User ID" title="User ID associated with this order" />
+      <input [(ngModel)]="order.item_ids" placeholder="Enter Item IDs (comma-separated)" title="Comma-separated list of Item IDs" />
+      <input [(ngModel)]="order.pickupLocation" placeholder="Enter Pickup Location" title="Pickup location for the order" />
+      <input [(ngModel)]="order.dropOffLocation" placeholder="Enter Drop-off Location" title="Drop-off location for the order" />
+    </div>
     <button class="primary-btn" (click)="addOrder()" [disabled]="isLoading">Add Order</button>
   </div>
 
   <!-- Form to List Orders by User ID -->
   <div class="form-section">
     <h3>List Orders</h3>
-    <input [(ngModel)]="selectedUserId" placeholder="Enter User ID to view its orders" title="User ID to filter orders" />
+    <div class="input-group">
+      <input [(ngModel)]="selectedUserId" placeholder="Enter User ID to view its orders" title="User ID to filter orders" />
+    </div>
     <button class="primary-btn" (click)="listOrders()" [disabled]="isLoading">List Orders</button>
   </div>
 
@@ -56,18 +57,26 @@
     </ul>
   </div>
 
-  <!-- Display Selected Order Details -->
+  <!-- Selected Order Details -->
   <div class="order-details" *ngIf="order?.order?.id">
-    <h3>Order Details</h3>
-    <p><strong>Order ID:</strong> {{ order?.order?.id }}</p>
-    <p><strong>Status:</strong> {{ order?.order?.status }}</p>
-    <p><strong>Total Price:</strong> ${{ order?.order?.total_price }}</p>
-    <p><strong>Pickup Location:</strong> {{ order?.order?.pickup_location }}</p>
-    <p><strong>Drop-off Location:</strong> {{ order?.order?.drop_off_location }}</p>
-    <p><strong>Items:</strong>
-      <span *ngFor="let item of order?.items">{{ item.name }} (${{ item.price }})</span>
-    </p>
-    <p><strong>Store:</strong> {{ order?.store?.name }} - {{ order?.store?.location }}</p>
-    <p><strong>User:</strong> {{ order?.user?.name }} - {{ order?.user?.location }}</p>
+    <h3>📦 Detailed Order Information</h3>
+    <div class="details-group">
+      <p><strong>Pickup Location:</strong> {{ order?.order?.pickup_location }}</p>
+      <p><strong>Drop-off Location:</strong> {{ order?.order?.drop_off_location }}</p>
+      <p><strong>Status:</strong>
+        <span class="status-badge" [class]="order?.order?.status.toLowerCase()">{{ order?.order?.status }}</span>
+      </p>
+      <p><strong>Total Price:</strong> ${{ order?.order?.total_price }}</p>
+      <h4>🛒 Items:</h4>
+      <div class="items-grid">
+        <div *ngFor="let item of order?.items" class="item-card">
+          <h5>{{ item.name }}</h5>
+          <p><strong>Price:</strong> ${{ item.price }}</p>
+          <p><strong>Quantity:</strong> {{ 1 }}</p>
+        </div>
+      </div>
+      <p><strong>Store:</strong> {{ order?.store?.name }} - {{ order?.store?.location }}</p>
+      <p><strong>User:</strong> {{ order?.user?.name }} - {{ order?.user?.location }}</p>
+    </div>
   </div>
 </div>

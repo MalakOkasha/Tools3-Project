@@ -21,7 +21,7 @@ export class ItemComponent {
     stock: 0,
     category: '',
     cover_link: '', // Matches Swagger field
-    images: [], // Ensure this is an empty array
+    images: [] as string[], // Ensure this is an empty array
   };
   selectedStoreId: string = '';
   isLoading: boolean = false;
@@ -30,20 +30,26 @@ export class ItemComponent {
 
   // Add a new item
   addItem() {
-    if (!this.item.store_id || !this.item.name || this.item.price <= 0) {
+    // Check for required fields
+    if (!this.item.store_id || !this.item.name || !this.item.price || this.item.price <= 0) {
       alert('Please fill in the required fields.');
       return;
     }
 
-    // Ensure images is an array
+    // Ensure images is an array and handle comma-separated input
     if (typeof this.item.images === 'string') {
       this.item.images = this.item.images.split(',').map((url: string) => url.trim());
+    }
+
+    // Ensure `images` is an array of strings
+    if (!Array.isArray(this.item.images)) {
+      this.item.images = [];
     }
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     this.isLoading = true;
 
-    this.http.post('http://localhost:8080/api/items/add', this.item, { headers })
+    this.http.post('http://localhost:8080/items/add', this.item, { headers })
       .subscribe(
         (response: any) => {
           alert('Item added successfully.');
@@ -53,7 +59,6 @@ export class ItemComponent {
         (error) => {
           console.error('Error adding item:', error);
           alert('Failed to add item. Please try again.');
-          this.isLoading = false;
         },
         () => {
           this.isLoading = false;
@@ -69,7 +74,7 @@ export class ItemComponent {
     }
 
     this.isLoading = true;
-    this.http.get(`http://localhost:8080/api/items/list/${this.selectedStoreId}`)
+    this.http.get(`http://localhost:8080/items/list/${this.selectedStoreId}`)
       .subscribe(
         (response: any) => {
           this.itemList = Array.isArray(response) ? response : [];
@@ -82,7 +87,6 @@ export class ItemComponent {
         (error) => {
           console.error('Error fetching items:', error);
           alert('Failed to fetch items.');
-          this.isLoading = false;
         },
         () => {
           this.isLoading = false;
@@ -98,7 +102,7 @@ export class ItemComponent {
     }
 
     this.isLoading = true;
-    this.http.get(`http://localhost:8080/api/items/get/${id}`)
+    this.http.get(`http://localhost:8080/items/get/${id}`)
       .subscribe(
         (response: any) => {
           this.item = response;
@@ -106,7 +110,6 @@ export class ItemComponent {
         (error) => {
           console.error('Error fetching item:', error);
           alert('Item not found.');
-          this.isLoading = false;
         },
         () => {
           this.isLoading = false;
@@ -121,7 +124,7 @@ export class ItemComponent {
       return;
     }
 
-    const url = `http://localhost:8080/api/items/delete/${id}`;
+    const url = `http://localhost:8080/items/delete/${id}`;
     this.isLoading = true;
 
     this.http.delete(url).subscribe(
@@ -132,7 +135,6 @@ export class ItemComponent {
       (error) => {
         console.error('Error deleting item:', error);
         alert('Failed to delete item. Please try again.');
-        this.isLoading = false;
       },
       () => {
         this.isLoading = false;
@@ -151,7 +153,7 @@ export class ItemComponent {
       stock: 0,
       category: '',
       cover_link: '', // Matches Swagger field
-      images: [], // Ensure this is an empty array
+      images: [] as string[], // Ensure this is an empty array
     };
   }
 }

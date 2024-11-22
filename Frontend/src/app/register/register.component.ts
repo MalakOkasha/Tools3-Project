@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-register',
@@ -25,8 +27,11 @@ export class RegisterComponent {
     storeLocation: '', // For Owner
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
+  whenLogin(){
+    this.router.navigate(['/login']);
+  }
   whenRegister() {
     // Form validation
     if (!this.registerObject.name || !this.registerObject.email || !this.registerObject.password || !this.registerObject.confirmPassword || !this.registerObject.phone || !this.registerObject.role || !this.registerObject.location) {
@@ -100,7 +105,23 @@ export class RegisterComponent {
       (response) => {
         console.log('Registration successful:', response);
         alert('Registration successful!');
-        
+        switch (role) {
+          case 'user':
+            this.router.navigate(['/my-orders']);
+            break;
+          case 'courier':
+            this.router.navigate(['/courier']);
+            break;
+          case 'admin':
+            this.router.navigate(['/item']);
+            break;
+          case 'owner':
+            this.router.navigate(['/item']);
+            break;
+          default:
+            alert('Registration error !!');
+            return;
+        }
       },
       (error) => {
         console.error('Registration error:', error);

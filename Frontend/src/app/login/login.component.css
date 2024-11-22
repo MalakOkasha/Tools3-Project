@@ -1,7 +1,7 @@
-
+/* Reset and Base Styling */
 * {
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 body, html {
@@ -11,34 +11,43 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(to right, #6a82fb, #fc5c7d);
+  background: linear-gradient(to right, #6a82fb, #fc5c7d); /* Gradient background */
 }
 
+/* Main Container */
 .main {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100vh;
+  width: 100%;
+  padding: 0 20px;
 }
 
+/* Login Container */
 .login-container {
-  max-width: 400px;
+  max-width: 450px;
   width: 100%;
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 20px;
   padding: 40px 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
-h2 {
-  font-size: 26px;
+/* Logo */
+.logo h2 {
+  font-size: 28px;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
+/* Form Group */
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   text-align: left;
 }
 
@@ -50,17 +59,18 @@ label {
   display: block;
 }
 
+/* Input Fields with Icons */
 .input-icon {
   display: flex;
   align-items: center;
   background-color: #f7f8fc;
   border-radius: 10px;
-  padding: 12px;
+  padding: 14px;
   box-shadow: 0 4px 6px rgba(154, 153, 153, 0.05);
 }
 
 .input-icon i {
-  font-size: 18px;
+  font-size: 20px;
   color: #8f8d8d;
   margin-right: 10px;
 }
@@ -74,6 +84,7 @@ label {
   color: #333;
 }
 
+/* Button Styling */
 .button {
   width: 100%;
   padding: 12px;
@@ -84,17 +95,19 @@ label {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .button:hover {
   background-color: #2f366b;
+  transform: scale(1.05);
 }
 
+/* Role Cards */
 .role-selection {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .role-cards {
@@ -110,7 +123,7 @@ label {
   border-radius: 10px;
   text-align: center;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s ease;
 }
 
 .role-card i {
@@ -135,6 +148,7 @@ label {
   background-color: #e0e4f7;
 }
 
+/* Footer */
 .footer {
   margin-top: 20px;
   font-size: 14px;
@@ -143,4 +157,21 @@ label {
 
 .footer a {
   color: #3d4785;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Animation for Fade-in Effect */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

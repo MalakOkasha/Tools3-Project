@@ -6,24 +6,17 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"os/exec"
+	"os/signal"
+	"syscall"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 )
 
-// @title           Package Tracking System (PTS-OpenShift) phase 0
-// @version         1.0
-// @description     This is a sample API for user registration and login.
-// @termsOfService  http://example.com/terms/
-// @contact.name    Abdulrahman Hijazy
-// @contact.url     https://www.linkedin.com/in/abdulrahmanhijazy
-// @contact.email   abdulrahman.hijazy.a@gmail.com
-// @license.name    Cairo University
-// @license.url     Project Repo link
-// @host            localhost:8080
-// @BasePath        /
 func main() {
+	// Initialize logging and server details
 	fmt.Println("Starting the server...")
 
 	// Connect to the database
@@ -33,7 +26,12 @@ func main() {
 	router := mux.NewRouter()
 
 	// Wrap the router with CORS middleware
-	handler := cors.Default().Handler(router)
+	corsHandler := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://localhost:4200"}, // Allow frontend to access
+		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"},
+		AllowedHeaders: []string{"Content-Type", "Authorization"},
+	})
+	handler := corsHandler.Handler(router)
 
 	// Register API routes
 	APIs.RegisterAuthRoutes(router)
@@ -46,7 +44,7 @@ func main() {
 		http.ServeFile(w, r, "docs/swagger.json")
 	}))
 
-	// Serve the Swagger UI HTML page
+	// Serve Swagger UI
 	router.Path("/swagger").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		htmlContent := `<!DOCTYPE html>
 		<html lang="en">
@@ -76,12 +74,34 @@ func main() {
 		w.Write([]byte(htmlContent))
 	})
 
-	// Automatically open the Swagger UI page in the default browser
+	// Automatically open the Swagger UI page in the default browser (Windows-specific)
 	go func() {
 		exec.Command("cmd", "/c", "start", "http://localhost:8080/swagger").Run()
 	}()
 
+	// Set up graceful shutdown handling
+	server := &http.Server{
+		Addr:    ":8080",
+		Handler: handler,
+	}
+
+	go func() {
+		// Wait for interrupt signal to gracefully shut down the server
+		sigs := make(chan os.Signal, 1)
+		signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+		<-sigs
+		log.Println("Shutting down the server...")
+
+		// Attempt to shut down gracefully
+		if err := server.Shutdown(nil); err != nil {
+			log.Fatal("Server Shutdown Failed:", err)
+		}
+		log.Println("Server gracefully stopped")
+	}()
+
 	// Start the server on port 8080
 	log.Println("Server running on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", handler))
+	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		log.Fatal("Error starting server: ", err)
+	}
 }
