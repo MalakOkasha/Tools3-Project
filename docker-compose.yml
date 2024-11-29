@@ -1,0 +1,37 @@
+version: '3'
+services:
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: PTS
+    ports:
+      - "5433:5432"
+    volumes:
+      - tools3-project_postgres-data:/var/lib/postgresql/data
+    networks:
+      - my-network   # Connect to the custom network
+
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: 1234
+      DB_HOST: db        # Host is the service name defined here
+      DB_PORT: 5432
+      DB_NAME: PTS
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - my-network   # Connect to the same network as db
+
+volumes:
+  tools3-project_postgres-data:
+networks:
+  my-network:
+    driver: bridge  # Ensure both services are using this network
