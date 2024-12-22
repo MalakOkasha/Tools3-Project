@@ -8,6 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
+RUN npm cache clean --force
 RUN npm install
 
 # Copy the rest of the application
@@ -20,10 +21,10 @@ RUN npm run build --prod
 FROM nginx:alpine
 
 # Copy the build output from the previous stage
-COPY --from=build ./dist/my-angular-app /usr/share/nginx/html
+COPY --from=build /app/dist/my-angular-app/* /usr/share/nginx/html
 
 # Expose port 80 for the frontend
-EXPOSE 4200
+EXPOSE 80
 
 # Run Nginx server
 CMD ["nginx", "-g", "daemon off;"]
