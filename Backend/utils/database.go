@@ -4,23 +4,27 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 
 	_ "github.com/lib/pq" // Postgres driver
-)
-
-const (
-	DBUser     = "postgres"  // The actual PostgreSQL username
-	DBPassword = "hijazy_1"  // The actual PostgreSQL password
-	DBName     = "PTS"       // The actual PostgreSQL database name
-	DBHost     = "localhost" // The database host (e.g., localhost)
-	DBPort     = "5432"      // The PostgreSQL port (default is 5432)
-	SSLMode    = "disable"   // Change to "require" if SSL is enabled
 )
 
 var DB *sql.DB
 
 // ConnectDB initializes the database connection
 func ConnectDB() {
+	// Get database connection details from environment variables
+	DBUser := os.Getenv("DB_USER")         // Get DB user from environment variable
+	DBPassword := os.Getenv("DB_PASSWORD") // Get DB password from environment variable
+	DBName := os.Getenv("DB_NAME")         // Get DB name from environment variable
+	DBHost := os.Getenv("DB_HOST")         // Get DB host from environment variable
+	DBPort := os.Getenv("DB_PORT")         // Get DB port from environment variable
+	SSLMode := "disable"                   // SSL mode
+
+	if DBUser == "" || DBPassword == "" || DBName == "" || DBHost == "" || DBPort == "" {
+		log.Fatal("Missing required environment variables for database connection")
+	}
+
 	connStr := fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=%s",
 		DBUser, DBPassword, DBName, DBHost, DBPort, SSLMode)
 
