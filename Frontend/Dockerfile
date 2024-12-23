@@ -32,7 +32,7 @@ RUN mkdir -p /var/cache/nginx && chmod -R 755 /var/cache/nginx
 
 # Ensure proper permissions for non-root user
 RUN chmod -R 755 /usr/share/nginx/html && \
-    chmod -R 755 /etc/nginx && 
+    chmod -R 755 /etc/nginx 
 
 # Expose port 80 for the frontend
 EXPOSE 80
