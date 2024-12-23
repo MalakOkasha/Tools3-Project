@@ -23,6 +23,15 @@ FROM nginx:alpine
 # Copy the build output from the previous stage
 COPY --from=build /app/dist/my-angular-app/* /usr/share/nginx/html
 
+# Copy custom Nginx configuration files
+COPY default.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Ensure proper permissions for non-root user
+RUN chmod -R 755 /usr/share/nginx/html && \
+    chmod -R 755 /etc/nginx && \
+    chmod -R 755 /var/cache/nginx
+
 # Expose port 80 for the frontend
 EXPOSE 80
 
