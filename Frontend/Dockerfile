@@ -34,8 +34,8 @@ RUN mkdir -p /var/cache/nginx && chmod -R 755 /var/cache/nginx
 RUN chmod -R 755 /usr/share/nginx/html && \
     chmod -R 755 /etc/nginx 
 
-# Expose port 80 for the frontend
-EXPOSE 80
+# Expose port 3000 for the frontend
+EXPOSE 3000
 
 # Run Nginx server
 CMD ["nginx", "-g", "daemon off;"]
