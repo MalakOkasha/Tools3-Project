@@ -1,32 +1,39 @@
-# Use a lightweight Go image
+# Stage 1: Build the Go application
 FROM golang:alpine AS build
 
-# Set the working directory in the container
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Go modules and source code into the container
+# Copy dependency files (go.mod and go.sum) first
+# This ensures Docker can cache the dependency installation step if go.mod or go.sum doesn't change.
+COPY go.mod go.sum ./
+
+# Download dependencies without modifying go.mod or go.sum
+RUN go mod download
+
+# Copy the rest of the application source code into the container
+# This is done after installing dependencies to take advantage of Docker layer caching.
 COPY . .
 
-# Install dependencies
-RUN go mod tidy
-
 # Build the Go application
+# The output binary will be named "main".
 RUN go build -o main .
 
-# Use a minimal image to run the built Go app
+# Stage 2: Runtime image
+# Use a minimal Alpine Linux image to run the built Go application
 FROM alpine:latest
 
-# Set the working directory
-WORKDIR /app
+# Set the working directory for the runtime stage
+WORKDIR /root/
 
-# Copy the built application
+# Copy the built Go application binary from the build stage to the runtime image
 COPY --from=build /app/main .
 
-# Ensure proper permissions for the app directory and executable
-RUN chmod -R 755 /app
+# Ensure the binary has execution permissions
+RUN chmod +x /root/main
 
-# Expose the port your Go app runs on
+# Expose the port your Go application listens on
 EXPOSE 8080
 
-# Start the Go app
+# Command to run the Go application
 CMD ["./main"]
