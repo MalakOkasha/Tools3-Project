@@ -28,7 +28,7 @@ COPY default.conf /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Create directories and set permissions
-RUN mkdir -p /var/cache/nginx /var/run/nginx && \
+RUN mkdir -p /var/cache/nginx/client_temp /var/run/nginx && \
     chmod -R 755 /var/cache/nginx /var/run/nginx
 
 # Ensure proper permissions for non-root user
