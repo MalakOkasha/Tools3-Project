@@ -1,4 +1,4 @@
-# Use a lightweight Go image for building the application
+# Use a lightweight Go image to build the application
 FROM golang:alpine AS build
 
 # Set the working directory in the container
@@ -22,10 +22,11 @@ WORKDIR /app
 # Copy the built application from the build stage
 COPY --from=build /app/main .
 
-# Set non-root user for OpenShift compatibility
-RUN adduser -D -u 1001 appuser \
-    && chown -R appuser /app
+# Ensure the binary has executable permissions
+RUN chmod +x /app/main
 
+# Set non-root user for OpenShift compatibility
+RUN adduser -D -u 1001 appuser && chown -R appuser /app
 USER appuser
 
 # Expose the port your Go app runs on
