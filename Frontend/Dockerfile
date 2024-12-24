@@ -27,12 +27,13 @@ COPY --from=build /app/dist/my-angular-app/* /usr/share/nginx/html
 COPY default.conf /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Create writable directories for Nginx cache
-RUN mkdir -p /var/cache/nginx && chmod -R 755 /var/cache/nginx
+# Create directories and set permissions
+RUN mkdir -p /var/cache/nginx /var/run/nginx && \
+    chmod -R 755 /var/cache/nginx /var/run/nginx
 
 # Ensure proper permissions for non-root user
 RUN chmod -R 755 /usr/share/nginx/html && \
-    chmod -R 755 /etc/nginx 
+    chmod -R 755 /etc/nginx  
 
 # Expose port 3000 for the frontend
 EXPOSE 3000
