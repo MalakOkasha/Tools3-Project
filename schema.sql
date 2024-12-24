@@ -11,6 +11,18 @@ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
+CREATE TABLE stores (
+id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+name VARCHAR(255) NOT NULL,
+location VARCHAR(255),
+owner_id UUID,  -- Foreign key referencing the user who owns the store
+admins_ids UUID[] DEFAULT '{}',  -- Array of UUIDs to store admin IDs
+couriers_ids UUID[] DEFAULT '{}',  -- Array of UUIDs to store courier IDs
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
 
 CREATE TABLE couriers (
 id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -34,19 +46,6 @@ FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
 FOREIGN KEY (store_id) REFERENCES stores(id) ON DELETE SET NULL  -- Link store_id to stores table
 );
 
-
-
-CREATE TABLE stores (
-id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-name VARCHAR(255) NOT NULL,
-location VARCHAR(255),
-owner_id UUID,  -- Foreign key referencing the user who owns the store
-admins_ids UUID[] DEFAULT '{}',  -- Array of UUIDs to store admin IDs
-couriers_ids UUID[] DEFAULT '{}',  -- Array of UUIDs to store courier IDs
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE SET NULL
-);
 
 
 
