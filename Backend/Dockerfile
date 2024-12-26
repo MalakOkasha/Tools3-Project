@@ -21,6 +21,9 @@ WORKDIR /root/
 # Copy the built application
 COPY --from=build /app/main .
 
+# Ensure the binary has the right permissions
+RUN chmod +x ./main
+
 # Expose the port your Go app runs on
 EXPOSE 8080
 
