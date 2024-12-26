@@ -39,8 +39,8 @@ WORKDIR /root/
 # Copy the compiled binary from the build stage
 COPY --from=build /app/main .
 
-# Ensure the binary has execute permissions
-RUN chmod +x ./main
+# Ensure the binary has execute permissions and set correct ownership
+RUN chmod +x /root/main && chown root:root /root/main
 
 # Expose the application port
 EXPOSE 8080
